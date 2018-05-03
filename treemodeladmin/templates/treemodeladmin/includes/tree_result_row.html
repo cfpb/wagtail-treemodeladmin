@@ -1,0 +1,15 @@
+{% load modeladmin_tags %}
+<tr{{ row_attrs }}>
+    {% for item in result %}
+        {% result_row_value_display forloop.counter0 %}
+    {% endfor %}
+    {% if children.count > 0 %}
+    <td class="children">
+        <a class="icon text-replace icon-arrow-right" title="Explore {{ obj }}'s {{ view.child_name_plural }}" href="{{ child_index_url }}?{{child_filter}}">Explore {{ obj }}'s {{ view.child_name_plural }}</a>
+    </td>
+    {% else %}
+    <td class="no-children">
+        <a class="icon text-replace icon-plus-inverse" title="Add a {{ obj }} {{ view.child_name }}" href="{{ child_create_url }}">Add a {{ obj }} {{  view.child_name }}</a>
+    </td>
+    {% endif %}
+</tr>

@@ -1,106 +1,120 @@
-#### CFPB Open Source Project Template Instructions
+# Wagtail-TreeModelAdmin
 
-1. Create a new project.
-2. [Copy these files into the new project](#installation)
-3. Update the README, replacing the contents below as prescribed.
-4. Add any libraries, assets, or hard dependencies whose source code will be included
-   in the project's repository to the _Exceptions_ section in the [TERMS](TERMS.md).
-  - If no exceptions are needed, remove that section from TERMS.
-5. If working with an existing code base, answer the questions on the [open source checklist](opensource-checklist.md)
-6. Delete these instructions and everything up to the _Project Title_ from the README.
-7. Write some great software and tell people about it.
+[![Build Status](https://travis-ci.org/cfpb/wagtail-treemodeladmin.svg?branch=master)](https://travis-ci.org/cfpb/wagtail-treemodeladmin)
+[![Coverage Status](https://coveralls.io/repos/github/cfpb/wagtail-treemodeladmin/badge.svg?branch=master)](https://coveralls.io/github/cfpb/wagtail-treemodeladmin?branch=master)
 
-> Keep the README fresh! It's the first thing people see and will make the initial impression.
+Wagtail-TreeModelAdmin is an extension for Wagtail's ModelAdmin that allows for a page explorer-like navigation of Django model relationships within the Wagtail admin.
 
-## Installation
-
-To install all of the template files, run the following script from the root of your project's directory:
-
-```
-bash -c "$(curl -s https://raw.githubusercontent.com/CFPB/development/master/open-source-template.sh)"
-```
-
-----
-
-# Project Title
-
-**Description**:  Put a meaningful, short, plain-language description of what
-this project is trying to accomplish and why it matters.
-Describe the problem(s) this project solves.
-Describe how this software can improve the lives of its audience.
-
-Other things to include:
-
-  - **Technology stack**: Indicate the technological nature of the software, including primary programming language(s) and whether the software is intended as standalone or as a module in a framework or other ecosystem.
-  - **Status**:  Alpha, Beta, 1.1, etc. It's OK to write a sentence, too. The goal is to let interested people know where this project is at. This is also a good place to link to the [CHANGELOG](CHANGELOG.md).
-  - **Links to production or demo instances**
-  - Describe what sets this apart from related-projects. Linking to another doc or page is OK if this can't be expressed in a sentence or two.
-
-
-**Screenshot**: If the software has visual components, place a screenshot after the description; e.g.,
-
-![](https://raw.githubusercontent.com/cfpb/open-source-project-template/master/screenshot.png)
-
+- [Dependencies](#dependencies)
+- [Installation](#installation)
+- [Concepts](#concepts)
+- [Usage](#usage)
+    - [Quickstart](#quickstart)
+- [API](#api)
+- [Getting help](#getting-help)
+- [Getting involved](#getting-involved)
+- [Licensing](#licensing)
+- [Credits and references](#credits-and-references)
 
 ## Dependencies
 
-Describe any dependencies that must be installed for this software to work.
-This includes programming languages, databases or other storage mechanisms, build tools, frameworks, and so forth.
-If specific versions of other software are required, or known not to work, call that out.
+- Django 1.8+ (including Django 2.0)
+- Wagtail 1.13+ (including Wagtail 2.0)
+- Python 2.7+, 3.6+
 
 ## Installation
 
-Detailed instructions on how to install, configure, and get the project running.
-This should be frequently tested to ensure reliability. Alternatively, link to
-a separate [INSTALL](INSTALL.md) document.
+1. Install wagtail-treemodeladmin:
 
-## Configuration
+```shell
+pip install wagtail-treemodeladmin
+```
 
-If the software is configurable, describe it in detail, either here or in other documentation to which you link.
+2. Add `treemodeladmin` as an installed app in your Django `settings.py`:
+
+ ```python
+ INSTALLED_APPS = (
+     ...
+     'treemodeladmin',
+     ...
+ )
+```
+
+## Concepts
+
+Wagtail-TreeModelAdmin allows for a Wagtail page explorer-like navigation of Django one-to-many relationships within the Wagtail admin. In doing this, it conceptualizes the Django [`ForeignKey`](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ForeignKey) relationship as one of parents-to-children. The parent is the destination `to` of the `ForeignKey` relationship, the child is the source of the relationship. 
+
+Wagtail-TreeModelAdmin is an extension of [Wagtail's ModelAdmin](http://docs.wagtail.io/en/latest/reference/contrib/modeladmin/index.html). It is intended to be used exactly like `ModelAdmin`.
 
 ## Usage
 
-Show users how to use the software.
-Be specific.
-Use appropriate formatting when showing code snippets.
+### Quickstart
 
-## How to test the software
+To use Wagtail-TreeModelAdmin you first need to define some models that will be exposed in the Wagtail Admin.
 
-If the software includes automated tests, detail how to run those tests.
+```
+# libraryapp/models.py
 
-## Known issues
+from django.db import models
 
-Document any known significant shortcomings with the software.
+
+class Author(models.Model):
+    name = models.CharField(max_length=255)
+
+class Book(models.Model):
+    author = models.ForeignKey(Author, on_delete=models.PROTECT)
+    title = models.CharField(max_length=255)
+```
+
+Then create the `TreeModelAdmin` subclasses and register the root the tree using `modeladmin_register`:
+
+```python
+# libraryapp/wagtail_hooks.py
+from wagtail.contrib.modeladmin.options import modeladmin_register
+
+from treemodeladmin.options import TreeModelAdmin
+from libraryapp.models import Author, Book
+
+
+class BookModelAdmin(TreeModelAdmin):
+    model = Book
+    parent_field = 'author'
+
+
+@modeladmin_register
+class AuthorModelAdmin(TreeModelAdmin):
+    menu_label = 'Library'
+    menu_icon = 'list-ul'
+    model = Author
+    child_field = 'book_set'
+    child_model_admin = BookModelAdmin
+```
+
+Then visit the Wagtail admin. `Library` will be in the menu, and will give you a list of authors, and each author will have a link that will take to their books.
+
+## API
+
+Wagtail-TreeModelAdmin uses three new attributes on ModelAdmin subclasses to express parent/child relationships:
+
+- `parent_field`: The name of the Django [`ForeignKey`](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ForeignKey) on a child model.
+- `child_field`: The [`related_name`](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ForeignKey.related_name) on a Django `ForeignKey`. 
+- `child_model_admin`
+
+Any `TreeModelAdmin` subclass can specify both parent and child relationships. The root of the tree (either the `TreeModelAdmin` included in a `ModelAdminGroup` or the `@modeladmin_register`ed `TreeModelAdmin` subclass) should only include `child_*` fields.
 
 ## Getting help
 
-Instruct users how to get help with this software; this might include links to an issue tracker, wiki, mailing list, etc.
-
-**Example**
-
-If you have questions, concerns, bug reports, etc, please file an issue in this repository's Issue Tracker.
+Please add issues to the [issue tracker](https://github.com/cfpb/wagtail-treemodeladmin/issues).
 
 ## Getting involved
 
-This section should detail why people should get involved and describe key areas you are
-currently focusing on; e.g., trying to get feedback on features, fixing certain bugs, building
-important pieces, etc.
+General instructions on _how_ to contribute can be found in [CONTRIBUTING](CONTRIBUTING.md).
 
-General instructions on _how_ to contribute should be stated with a link to [CONTRIBUTING](CONTRIBUTING.md).
-
-
-----
-
-## Open source licensing info
+## Licensing
 1. [TERMS](TERMS.md)
 2. [LICENSE](LICENSE)
 3. [CFPB Source Code Policy](https://github.com/cfpb/source-code-policy/)
 
-
-----
-
 ## Credits and references
 
-1. Projects that inspired you
-2. Related projects
-3. Books, papers, talks, or other sources that have meaningful impact or influence on this project
+1. Forked from [cfgov-refresh](https://github.com/cfpb/cfgov-refresh)

@@ -1,0 +1,24 @@
+{% load i18n modeladmin_tags treemodeladmin_tags %}
+<header class="merged no-border nice-padding no-v-padding">
+    {% include "treemodeladmin/includes/breadcrumb.html" %}
+</header>
+<header class="nice-padding hasform">
+  <div class="row header-title">
+    <div class="left">
+      <div class="col">
+        {% block h1 %}<h1 {% if view.header_icon %}class="icon icon-{{ view.header_icon }}"{% endif %}>{{ view.get_page_title }}<span></span></h1>{% endblock %}
+        {% include 'modeladmin/includes/button.html' with button=view.get_parent_edit_button %}
+        {% include 'modeladmin/includes/button.html' with button=view.button_helper.add_button %}
+      </div>
+      {% block search %}{% search_form %}{% endblock %}
+    </div>
+    {% block header_extra %}
+    {% if user_can_create %}
+    <div class="right">
+      <div class="addbutton">
+      </div>
+    </div>
+    {% endif %}
+    {% endblock %}
+  </div>
+</header>
