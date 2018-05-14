@@ -1,15 +1,13 @@
 from setuptools import find_packages, setup
 
-try:
-    import pypandoc
-    long_description = pypandoc.convert('README.md', 'rst')
-except (IOError, ImportError):
-    long_description = open('README.md', 'r').read()
+
+with open('README.md') as f:
+    long_description = f.read()
 
 
 install_requires = [
     'Django>=1.8,<2.1',
-    'wagtail>=1.10,<2.1',
+    'wagtail>=1.13,<2.1',
 ]
 
 
