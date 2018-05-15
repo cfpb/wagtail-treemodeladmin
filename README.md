@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/cfpb/wagtail-treemodeladmin.svg?branch=master)](https://travis-ci.org/cfpb/wagtail-treemodeladmin)
 [![Coverage Status](https://coveralls.io/repos/github/cfpb/wagtail-treemodeladmin/badge.svg?branch=master)](https://coveralls.io/github/cfpb/wagtail-treemodeladmin?branch=master)
 
-Wagtail-TreeModelAdmin is an extension for Wagtail's ModelAdmin that allows for a page explorer-like navigation of Django model relationships within the Wagtail admin.
+Wagtail-TreeModelAdmin is an extension for Wagtail's [ModelAdmin](http://docs.wagtail.io/en/latest/reference/contrib/modeladmin/) that allows for a page explorer-like navigation of Django model relationships within the Wagtail admin.
 
 - [Dependencies](#dependencies)
 - [Installation](#installation)
@@ -30,11 +30,12 @@ Wagtail-TreeModelAdmin is an extension for Wagtail's ModelAdmin that allows for 
 pip install wagtail-treemodeladmin
 ```
 
-2. Add `treemodeladmin` as an installed app in your Django `settings.py`:
+2. Add `treemodeladmin` (and `wagtail.contrib.modeladmin` if it's not already) as an installed app in your Django `settings.py`:
 
  ```python
  INSTALLED_APPS = (
      ...
+     'wagtail.contrib.modeladmin',
      'treemodeladmin',
      ...
  )
@@ -90,7 +91,7 @@ class AuthorModelAdmin(TreeModelAdmin):
     child_model_admin = BookModelAdmin
 ```
 
-Then visit the Wagtail admin. `Library` will be in the menu, and will give you a list of authors, and each author will have a link that will take to their books.
+Then visit the Wagtail admin. `Library` will be in the menu, and will give you a list of authors, and each author will have a link that will take you to their books.
 
 ## API
 
