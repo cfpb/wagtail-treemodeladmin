@@ -1,0 +1,62 @@
+[
+    {
+        "pk": 1,
+        "model": "treemodeladmintest.author",
+        "fields": {
+            "name": "J. R. R. Tolkien"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "treemodeladmintest.author",
+        "fields": {
+            "name": "Roald Dahl"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "treemodeladmintest.author",
+        "fields": {
+            "name": "C. S. Lewis"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "treemodeladmintest.author",
+        "fields": {
+            "name": "J. R. Hartley"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "treemodeladmintest.book",
+        "fields": {
+            "title": "The Lord of the Rings",
+            "author_id": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "treemodeladmintest.book",
+        "fields": {
+            "title": "The Hobbit",
+            "author_id": 1
+        }
+    },
+    {
+        "pk": 3,
+        "model": "treemodeladmintest.book",
+        "fields": {
+            "title": "Charlie and the Chocolate Factory",
+            "author_id": 2
+        }
+    },
+    {
+        "pk": 4,
+        "model": "treemodeladmintest.book",
+        "fields": {
+            "title": "The Chronicles of Narnia",
+            "author_id": 3
+        }
+    }
+]
