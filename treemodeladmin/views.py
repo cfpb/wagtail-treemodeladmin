@@ -6,41 +6,39 @@ from django.utils.decorators import method_decorator
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 
-from wagtail.contrib.modeladmin.views import IndexView
+from wagtail.contrib.modeladmin.views import IndexView, CreateView
 
 
-class TreeIndexView(IndexView):
-    parent_instance = None
-    parent_model = None
-    parent_model_admin = None
-    parent_opts = None
-    parent_pk = None
+class TreeViewParentMixin(object):
 
-    def __init__(self, model_admin):
-        super(TreeIndexView, self).__init__(model_admin)
-
+    @cached_property
+    def parent_model_admin(self):
         if self.model_admin.has_parent():
-            self.parent_model_admin = self.model_admin.parent
-            self.parent_model = self.parent_model_admin.model
-            self.parent_opts = self.parent_model._meta
+            return self.model_admin.parent
 
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        # Only continue if logged in user has list permission
-        if not self.permission_helper.user_can_list(request.user):
-            raise PermissionDenied
-
-        self.params = dict(request.GET.items())
+    @cached_property
+    def parent_model(self):
         if self.model_admin.has_parent():
-            parent_filter_name = self.model_admin.parent_field
-            if parent_filter_name in self.params:
-                self.parent_pk = unquote(self.params[parent_filter_name])
-                filter_kwargs = {self.parent_opts.pk.attname: self.parent_pk}
+            return self.parent_model_admin.model
+
+    @cached_property
+    def parent_opts(self):
+        if self.model_admin.has_parent():
+            return self.parent_model._meta
+
+    @cached_property
+    def parent_instance(self):
+        if self.model_admin.has_parent():
+            params = dict(self.request.GET.items())
+            if self.model_admin.parent_field in params:
+                parent_pk = unquote(params[self.model_admin.parent_field])
+                filter_kwargs = {self.parent_opts.pk.attname: parent_pk}
                 parent_qs = self.parent_model._default_manager.get_queryset(
                 ).filter(**filter_kwargs)
-                self.parent_instance = get_object_or_404(parent_qs)
+                return get_object_or_404(parent_qs)
 
-        return super(TreeIndexView, self).dispatch(request, *args, **kwargs)
+
+class TreeIndexView(TreeViewParentMixin, IndexView):
 
     def get_queryset(self, request=None):
         qs = super(TreeIndexView, self).get_queryset(request=request)
@@ -64,7 +62,7 @@ class TreeIndexView(IndexView):
             self.parent_model_admin.get_button_helper_class()
         parent_button_helper = parent_button_helper_class(self, self.request)
         return parent_button_helper.edit_button(
-            self.parent_pk,
+            self.parent_instance.pk,
             classnames_add=['button-secondary', 'button-small']
         )
 
@@ -78,6 +76,13 @@ class TreeIndexView(IndexView):
     def get_children(self, obj):
         if self.has_child:
             return getattr(obj, self.model_admin.get_child_field())
+
+    def get_add_button_with_parent(self):
+        if self.parent_instance is not None:
+            return self.button_helper.get_add_button_with_parent(
+                self.model_admin.parent_field, self.parent_instance.pk
+            )
+        return self.button_helper.add_button
 
     @cached_property
     def has_child_admin(self):
@@ -121,3 +126,12 @@ class TreeIndexView(IndexView):
                 model_admin = None
 
         return reversed(breadcrumbs)
+
+
+class TreeCreateView(TreeViewParentMixin, CreateView):
+
+    def get_initial(self):
+        initial = super(TreeCreateView, self).get_initial()
+        if self.parent_instance is not None:
+            initial[self.model_admin.parent_field] = self.parent_instance.pk
+        return initial

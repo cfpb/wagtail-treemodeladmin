@@ -8,7 +8,7 @@
       <div class="col">
         {% block h1 %}<h1 {% if view.header_icon %}class="icon icon-{{ view.header_icon }}"{% endif %}>{{ view.get_page_title }}<span></span></h1>{% endblock %}
         {% include 'modeladmin/includes/button.html' with button=view.get_parent_edit_button %}
-        {% include 'modeladmin/includes/button.html' with button=view.button_helper.add_button %}
+        {% include 'modeladmin/includes/button.html' with button=view.get_add_button_with_parent %}
       </div>
       {% block search %}{% search_form %}{% endblock %}
     </div>
