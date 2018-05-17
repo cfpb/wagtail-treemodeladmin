@@ -74,8 +74,13 @@ class TestBookIndexView(TestCase, WagtailTestUtils):
         response = self.get(author=1)
         self.assertFalse(response.context['view'].has_child_admin)
 
+    def test_book_listing_parent_edit_link_filtered(self):
+        response = self.get(author=1)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '/author/edit/1')
+
     def test_breadcrumbs(self):
-        resposne = self.get(author=1)
+        resposne = self.get()
         self.assertEqual(
             list(resposne.context['view'].breadcrumbs),
             [
@@ -84,6 +89,15 @@ class TestBookIndexView(TestCase, WagtailTestUtils):
             ]
         )
 
+    def test_breadcrumbs_with_parent(self):
+        resposne = self.get(author=1)
+        self.assertEqual(
+            list(resposne.context['view'].breadcrumbs),
+            [
+                ('/admin/treemodeladmintest/author/', 'authors'),
+                ('/admin/treemodeladmintest/book/?author=1', 'books')
+            ]
+        )
 
 class TestBookCreateView(TestCase, WagtailTestUtils):
     fixtures = ['treemodeladmin_test.json']

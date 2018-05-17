@@ -1,4 +1,3 @@
-from django.contrib.admin.utils import quote
 from django.template import Library
 
 from wagtail.contrib.modeladmin.templatetags.modeladmin_tags import (
@@ -29,8 +28,9 @@ def tree_result_row_display(context, index):
     if view.has_child_admin:
         context.update({
             'children': view.get_children(obj),
-            'child_index_url': child_url_helper.index_url,
-            'child_filter': view.get_child_filter(quote(obj.pk)),
+            'child_index_url': child_url_helper.get_index_url_with_parent(
+                view.child_model_admin.parent_field, obj.pk
+            ),
             'child_create_url': child_url_helper.get_create_url_with_parent(
                 view.child_model_admin.parent_field, obj.pk
             ),

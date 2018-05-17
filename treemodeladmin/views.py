@@ -37,6 +37,33 @@ class TreeViewParentMixin(object):
                 ).filter(**filter_kwargs)
                 return get_object_or_404(parent_qs)
 
+    @property
+    def breadcrumbs(self):
+        parent_instance = self.parent_instance
+        model_admin = self.model_admin
+
+        breadcrumbs = []
+
+        while model_admin is not None:
+            breadcrumbs.append(
+                model_admin.url_helper.crumb(
+                    parent_field=model_admin.parent_field,
+                    parent_instance=parent_instance
+                )
+            )
+
+            if model_admin.has_parent():
+                parent_instance = getattr(
+                    parent_instance,
+                    model_admin.parent_field,
+                    None
+                )
+                model_admin = model_admin.parent
+            else:
+                model_admin = None
+
+        return reversed(breadcrumbs)
+
 
 class TreeIndexView(TreeViewParentMixin, IndexView):
 
@@ -65,13 +92,6 @@ class TreeIndexView(TreeViewParentMixin, IndexView):
             self.parent_instance.pk,
             classnames_add=['button-secondary', 'button-small']
         )
-
-    def get_child_filter(self, parent_pk):
-        if self.has_child:
-            return (
-                self.child_model_admin.parent_field + '=' +
-                str(parent_pk)
-            )
 
     def get_children(self, obj):
         if self.has_child:
@@ -108,24 +128,6 @@ class TreeIndexView(TreeViewParentMixin, IndexView):
     def child_url_helper(self):
         if self.has_child:
             return self.model_admin.child_instance.url_helper
-
-    @property
-    def breadcrumbs(self):
-        model_admin = self.model_admin
-        breadcrumbs = []
-
-        while model_admin is not None:
-            breadcrumbs.append((
-                model_admin.url_helper.index_url,
-                force_text(model_admin.model._meta.verbose_name_plural)
-            ))
-
-            if model_admin.has_parent():
-                model_admin = model_admin.parent
-            else:
-                model_admin = None
-
-        return reversed(breadcrumbs)
 
 
 class TreeCreateView(TreeViewParentMixin, CreateView):
