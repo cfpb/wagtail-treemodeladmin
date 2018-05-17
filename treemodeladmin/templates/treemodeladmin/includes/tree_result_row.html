@@ -5,7 +5,7 @@
     {% endfor %}
     {% if children.count > 0 %}
     <td class="children">
-        <a class="icon text-replace icon-arrow-right" title="Explore {{ obj }}'s {{ view.child_name_plural }}" href="{{ child_index_url }}?{{child_filter}}">Explore {{ obj }}'s {{ view.child_name_plural }}</a>
+        <a class="icon text-replace icon-arrow-right" title="Explore {{ obj }}'s {{ view.child_name_plural }}" href="{{ child_index_url }}">Explore {{ obj }}'s {{ view.child_name_plural }}</a>
     </td>
     {% else %}
     <td class="no-children">
