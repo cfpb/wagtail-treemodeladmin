@@ -1,5 +1,4 @@
 from django.test import TestCase
-from unittest import skip
 
 from wagtail.tests.utils import WagtailTestUtils
 
@@ -98,6 +97,7 @@ class TestBookIndexView(TestCase, WagtailTestUtils):
                 ('/admin/treemodeladmintest/book/?author=1', 'books')
             ]
         )
+
 
 class TestBookCreateView(TestCase, WagtailTestUtils):
     fixtures = ['treemodeladmin_test.json']

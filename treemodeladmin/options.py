@@ -1,7 +1,7 @@
 from wagtail.contrib.modeladmin.options import ModelAdmin
 
 from treemodeladmin.helpers import TreeAdminURLHelper, TreeButtonHelper
-from treemodeladmin.views import TreeIndexView, TreeCreateView
+from treemodeladmin.views import TreeCreateView, TreeIndexView
 
 
 class TreeModelAdmin(ModelAdmin):

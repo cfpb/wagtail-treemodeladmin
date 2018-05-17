@@ -1,12 +1,8 @@
 from django.contrib.admin.utils import unquote
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
-from django.utils.decorators import method_decorator
-from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 
-from wagtail.contrib.modeladmin.views import IndexView, CreateView
+from wagtail.contrib.modeladmin.views import CreateView, IndexView
 
 
 class TreeViewParentMixin(object):
