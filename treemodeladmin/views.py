@@ -87,7 +87,8 @@ class TreeIndexView(TreeViewParentMixin, IndexView):
             return None
         parent_button_helper_class = \
             self.parent_model_admin.get_button_helper_class()
-        parent_button_helper = parent_button_helper_class(self, self.request)
+        parent_button_helper = parent_button_helper_class(
+            self.parent_model_admin, self.request)
         return parent_button_helper.edit_button(
             self.parent_instance.pk,
             classnames_add=['button-secondary', 'button-small']
