@@ -2,6 +2,8 @@ from django.test import TestCase
 
 from wagtail.tests.utils import WagtailTestUtils
 
+from treemodeladmin.tests.treemodeladmintest.models import Author, Book
+
 
 class TestAuthorIndexView(TestCase, WagtailTestUtils):
     fixtures = ['treemodeladmin_test.json']
@@ -109,7 +111,97 @@ class TestBookCreateView(TestCase, WagtailTestUtils):
         return self.client.get('/admin/treemodeladmintest/book/create/',
                                params)
 
+    def post(self, post_data):
+        return self.client.post('/admin/treemodeladmintest/book/create/',
+                                post_data)
+
     def test_book_creation_with_initial_author(self):
         response = self.get(author=1)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'value="1" selected')
+
+    def test_create_redirects_to_author(self):
+        response = self.post({
+            'title': 'The Silmarilian',
+            'author': 1,
+        })
+
+        # Should redirect back to
+        self.assertRedirects(response,
+                             '/admin/treemodeladmintest/book/?author=1')
+
+
+class TestBookEditView(TestCase, WagtailTestUtils):
+    fixtures = ['treemodeladmin_test.json']
+
+    def setUp(self):
+        self.user = self.login()
+
+    def post(self, book_id, post_data):
+        return self.client.post(
+            '/admin/treemodeladmintest/book/edit/{}/'.format(book_id),
+            post_data
+        )
+
+    def test_create_redirects_to_author(self):
+        response = self.post(
+            1,
+            {
+                'title': 'The Lord of the Rings',
+                'author': 1,
+            }
+        )
+        self.assertRedirects(
+            response,
+            '/admin/treemodeladmintest/book/?author=1'
+        )
+
+
+class TestBookDeleteView(TestCase, WagtailTestUtils):
+    fixtures = ['treemodeladmin_test.json']
+
+    def setUp(self):
+        self.login()
+
+    def post(self, book_id):
+        return self.client.post(
+            '/admin/treemodeladmintest/book/delete/{}/'.format(book_id)
+        )
+
+    def test_post(self):
+        response = self.post(1)
+        self.assertRedirects(
+            response,
+            '/admin/treemodeladmintest/book/?author=1'
+        )
+        self.assertFalse(Book.objects.filter(id=1).exists())
+
+
+class TestAuthorDeleteView(TestCase, WagtailTestUtils):
+    fixtures = ['treemodeladmin_test.json']
+
+    def setUp(self):
+        self.login()
+
+    def post(self, author_id):
+        return self.client.post(
+            '/admin/treemodeladmintest/author/delete/{}/'.format(author_id)
+        )
+
+    def test_post_with_dependent_object(self):
+        response = self.post(1)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "'J. R. R. Tolkien' is currently referenced by other objects"
+        )
+        self.assertContains(
+            response,
+            "<li><b>Book:</b> The Lord of the Rings</li>"
+        )
+        self.assertTrue(Author.objects.filter(id=1).exists())
+
+    def test_post_without_dependent_object(self):
+        response = self.post(4)
+        self.assertRedirects(response, '/admin/treemodeladmintest/author/')
+        self.assertFalse(Author.objects.filter(id=4).exists())

@@ -1,7 +1,12 @@
 from wagtail.contrib.modeladmin.options import ModelAdmin
 
 from treemodeladmin.helpers import TreeAdminURLHelper, TreeButtonHelper
-from treemodeladmin.views import TreeCreateView, TreeIndexView
+from treemodeladmin.views import (
+    TreeCreateView,
+    TreeDeleteView,
+    TreeEditView,
+    TreeIndexView,
+)
 
 
 class TreeModelAdmin(ModelAdmin):
@@ -11,6 +16,8 @@ class TreeModelAdmin(ModelAdmin):
     parent_field = None
     index_view_class = TreeIndexView
     create_view_class = TreeCreateView
+    delete_view_class = TreeDeleteView
+    edit_view_class = TreeEditView
     index_template_name = 'treemodeladmin/index.html'
     button_helper_class = TreeButtonHelper
     url_helper_class = TreeAdminURLHelper

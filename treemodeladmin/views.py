@@ -1,8 +1,21 @@
 from django.contrib.admin.utils import unquote
-from django.shortcuts import get_object_or_404
+from django.db import models
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.functional import cached_property
+from django.utils.translation import ugettext as _
 
-from wagtail.contrib.modeladmin.views import CreateView, IndexView
+from wagtail.contrib.modeladmin.views import (
+    CreateView,
+    DeleteView,
+    EditView,
+    IndexView,
+)
+
+
+try:
+    from wagtail.admin import messages
+except ImportError:
+    from wagtail.wagtailadmin import messages
 
 
 class TreeViewParentMixin(object):
@@ -25,7 +38,14 @@ class TreeViewParentMixin(object):
     @cached_property
     def parent_instance(self):
         if self.model_admin.has_parent():
-            params = dict(self.request.GET.items())
+            if getattr(self, 'instance', None) is not None:
+                return getattr(self.instance, self.model_admin.parent_field)
+
+            if self.request.method == "POST":
+                params = dict(self.request.POST.items())
+            else:
+                params = dict(self.request.GET.items())
+
             if self.model_admin.parent_field in params:
                 parent_pk = unquote(params[self.model_admin.parent_field])
                 filter_kwargs = {self.parent_opts.pk.attname: parent_pk}
@@ -127,10 +147,62 @@ class TreeIndexView(TreeViewParentMixin, IndexView):
             return self.model_admin.child_instance.url_helper
 
 
-class TreeCreateView(TreeViewParentMixin, CreateView):
+class TreeModelFormMixin(TreeViewParentMixin):
+
+    def get_success_url(self):
+        if self.parent_instance is not None:
+            return self.url_helper.get_index_url_with_parent(
+                self.model_admin.parent_field, self.parent_instance.pk
+            )
+        return self.index_url
+
+
+class TreeCreateView(TreeModelFormMixin, CreateView):
 
     def get_initial(self):
         initial = super(TreeCreateView, self).get_initial()
         if self.parent_instance is not None:
             initial[self.model_admin.parent_field] = self.parent_instance.pk
         return initial
+
+
+class TreeEditView(TreeModelFormMixin, EditView):
+    pass
+
+
+class TreeDeleteView(TreeViewParentMixin, DeleteView):
+
+    def post(self, request, *args, **kwargs):
+        # Unfortunately, ModelAdmin doesn't provide a good way to override the
+        # redirect(self.index_url) like the edit/create views. So this is
+        # copied directly from modeladmin.views.DeleteView.
+        try:
+            if self.parent_instance is not None:
+                index_url = self.url_helper.get_index_url_with_parent(
+                    self.model_admin.parent_field, self.parent_instance.pk
+                )
+            else:
+                index_url = self.index_url
+
+            msg = _("{model} '{instance}' deleted.").format(
+                model=self.verbose_name, instance=self.instance)
+            self.delete_instance()
+            messages.success(request, msg)
+
+            return redirect(index_url)
+        except models.ProtectedError:
+            linked_objects = []
+            fields = self.model._meta.fields_map.values()
+            fields = (obj for obj in fields if not isinstance(
+                obj.field, models.fields.related.ManyToManyField))
+            for rel in fields:
+                if rel.on_delete == models.PROTECT:
+                    qs = getattr(self.instance, rel.get_accessor_name())
+                    for obj in qs.all():
+                        linked_objects.append(obj)
+            context = self.get_context_data(
+                protected_error=True,
+                linked_objects=linked_objects
+            )
+
+        return self.render_to_response(context)
