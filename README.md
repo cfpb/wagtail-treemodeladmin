@@ -112,6 +112,7 @@ Please add issues to the [issue tracker](https://github.com/cfpb/wagtail-treemod
 General instructions on _how_ to contribute can be found in [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Licensing
+
 1. [TERMS](TERMS.md)
 2. [LICENSE](LICENSE)
 3. [CFPB Source Code Policy](https://github.com/cfpb/source-code-policy/)

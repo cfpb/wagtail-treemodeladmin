@@ -1,46 +1,87 @@
 from django.contrib.admin.utils import unquote
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404
-from django.utils.decorators import method_decorator
-from django.utils.encoding import force_text
+from django.db import models
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.functional import cached_property
+from django.utils.translation import ugettext as _
 
-from wagtail.contrib.modeladmin.views import IndexView
+from wagtail.contrib.modeladmin.views import (
+    CreateView,
+    DeleteView,
+    EditView,
+    IndexView,
+)
 
 
-class TreeIndexView(IndexView):
-    parent_instance = None
-    parent_model = None
-    parent_model_admin = None
-    parent_opts = None
-    parent_pk = None
+try:
+    from wagtail.admin import messages
+except ImportError:
+    from wagtail.wagtailadmin import messages
 
-    def __init__(self, model_admin):
-        super(TreeIndexView, self).__init__(model_admin)
 
+class TreeViewParentMixin(object):
+
+    @cached_property
+    def parent_model_admin(self):
         if self.model_admin.has_parent():
-            self.parent_model_admin = self.model_admin.parent
-            self.parent_model = self.parent_model_admin.model
-            self.parent_opts = self.parent_model._meta
+            return self.model_admin.parent
 
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        # Only continue if logged in user has list permission
-        if not self.permission_helper.user_can_list(request.user):
-            raise PermissionDenied
-
-        self.params = dict(request.GET.items())
+    @cached_property
+    def parent_model(self):
         if self.model_admin.has_parent():
-            parent_filter_name = self.model_admin.parent_field
-            if parent_filter_name in self.params:
-                self.parent_pk = unquote(self.params[parent_filter_name])
-                filter_kwargs = {self.parent_opts.pk.attname: self.parent_pk}
+            return self.parent_model_admin.model
+
+    @cached_property
+    def parent_opts(self):
+        if self.model_admin.has_parent():
+            return self.parent_model._meta
+
+    @cached_property
+    def parent_instance(self):
+        if self.model_admin.has_parent():
+            if getattr(self, 'instance', None) is not None:
+                return getattr(self.instance, self.model_admin.parent_field)
+
+            if self.request.method == "POST":
+                params = dict(self.request.POST.items())
+            else:
+                params = dict(self.request.GET.items())
+
+            if self.model_admin.parent_field in params:
+                parent_pk = unquote(params[self.model_admin.parent_field])
+                filter_kwargs = {self.parent_opts.pk.attname: parent_pk}
                 parent_qs = self.parent_model._default_manager.get_queryset(
                 ).filter(**filter_kwargs)
-                self.parent_instance = get_object_or_404(parent_qs)
+                return get_object_or_404(parent_qs)
 
-        return super(TreeIndexView, self).dispatch(request, *args, **kwargs)
+    @property
+    def breadcrumbs(self):
+        parent_instance = self.parent_instance
+        model_admin = self.model_admin
+
+        breadcrumbs = []
+
+        while model_admin is not None:
+            breadcrumbs.append(
+                model_admin.url_helper.crumb(
+                    parent_field=model_admin.parent_field,
+                    parent_instance=parent_instance
+                )
+            )
+
+            if model_admin.has_parent():
+                parent_instance = getattr(
+                    parent_instance,
+                    model_admin.parent_field,
+                    None
+                )
+                model_admin = model_admin.parent
+            else:
+                model_admin = None
+
+        return reversed(breadcrumbs)
+
+
+class TreeIndexView(TreeViewParentMixin, IndexView):
 
     def get_queryset(self, request=None):
         qs = super(TreeIndexView, self).get_queryset(request=request)
@@ -62,22 +103,23 @@ class TreeIndexView(IndexView):
             return None
         parent_button_helper_class = \
             self.parent_model_admin.get_button_helper_class()
-        parent_button_helper = parent_button_helper_class(self, self.request)
+        parent_button_helper = parent_button_helper_class(
+            self.parent_model_admin, self.request)
         return parent_button_helper.edit_button(
-            self.parent_pk,
+            self.parent_instance.pk,
             classnames_add=['button-secondary', 'button-small']
         )
-
-    def get_child_filter(self, parent_pk):
-        if self.has_child:
-            return (
-                self.child_model_admin.parent_field + '=' +
-                str(parent_pk)
-            )
 
     def get_children(self, obj):
         if self.has_child:
             return getattr(obj, self.model_admin.get_child_field())
+
+    def get_add_button_with_parent(self):
+        if self.parent_instance is not None:
+            return self.button_helper.get_add_button_with_parent(
+                self.model_admin.parent_field, self.parent_instance.pk
+            )
+        return self.button_helper.add_button
 
     @cached_property
     def has_child_admin(self):
@@ -104,20 +146,63 @@ class TreeIndexView(IndexView):
         if self.has_child:
             return self.model_admin.child_instance.url_helper
 
-    @property
-    def breadcrumbs(self):
-        model_admin = self.model_admin
-        breadcrumbs = []
 
-        while model_admin is not None:
-            breadcrumbs.append((
-                model_admin.url_helper.index_url,
-                force_text(model_admin.model._meta.verbose_name_plural)
-            ))
+class TreeModelFormMixin(TreeViewParentMixin):
 
-            if model_admin.has_parent():
-                model_admin = model_admin.parent
+    def get_success_url(self):
+        if self.parent_instance is not None:
+            return self.url_helper.get_index_url_with_parent(
+                self.model_admin.parent_field, self.parent_instance.pk
+            )
+        return self.index_url
+
+
+class TreeCreateView(TreeModelFormMixin, CreateView):
+
+    def get_initial(self):
+        initial = super(TreeCreateView, self).get_initial()
+        if self.parent_instance is not None:
+            initial[self.model_admin.parent_field] = self.parent_instance.pk
+        return initial
+
+
+class TreeEditView(TreeModelFormMixin, EditView):
+    pass
+
+
+class TreeDeleteView(TreeViewParentMixin, DeleteView):
+
+    def post(self, request, *args, **kwargs):
+        # Unfortunately, ModelAdmin doesn't provide a good way to override the
+        # redirect(self.index_url) like the edit/create views. So this is
+        # copied directly from modeladmin.views.DeleteView.
+        try:
+            if self.parent_instance is not None:
+                index_url = self.url_helper.get_index_url_with_parent(
+                    self.model_admin.parent_field, self.parent_instance.pk
+                )
             else:
-                model_admin = None
+                index_url = self.index_url
 
-        return reversed(breadcrumbs)
+            msg = _("{model} '{instance}' deleted.").format(
+                model=self.verbose_name, instance=self.instance)
+            self.delete_instance()
+            messages.success(request, msg)
+
+            return redirect(index_url)
+        except models.ProtectedError:
+            linked_objects = []
+            fields = self.model._meta.fields_map.values()
+            fields = (obj for obj in fields if not isinstance(
+                obj.field, models.fields.related.ManyToManyField))
+            for rel in fields:
+                if rel.on_delete == models.PROTECT:
+                    qs = getattr(self.instance, rel.get_accessor_name())
+                    for obj in qs.all():
+                        linked_objects.append(obj)
+            context = self.get_context_data(
+                protected_error=True,
+                linked_objects=linked_objects
+            )
+
+        return self.render_to_response(context)
