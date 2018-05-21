@@ -1,0 +1,9 @@
+header .button-small {
+    background-color: transparent;
+    color: #fff;
+    border-color: #358c8b;
+}
+
+header .button-small:hover {
+    background: #358c8b;
+}

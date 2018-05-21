@@ -1,6 +1,10 @@
 {% extends "modeladmin/index.html" %}
 {% load i18n modeladmin_tags treemodeladmin_tags %}
 
+{% block extra_css %}
+    {{ view.media.css }}
+{% endblock %}
+
 {% block header %}
     {% include "treemodeladmin/includes/header.html" %}
 {% endblock %}
@@ -28,4 +32,3 @@
         {% result_list %}
     {% endif %}
 {% endblock %}
-
