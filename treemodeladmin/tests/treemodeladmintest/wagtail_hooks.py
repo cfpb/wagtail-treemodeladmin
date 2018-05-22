@@ -4,11 +4,18 @@ from wagtail.contrib.modeladmin.options import (
 )
 
 from treemodeladmin.options import TreeModelAdmin
-from treemodeladmin.tests.treemodeladmintest.models import Author, Book
+from treemodeladmin.tests.treemodeladmintest.models import Author, Book, Volume
+
+
+class VolumeModelAdmin(TreeModelAdmin):
+    model = Volume
+    parent_field = 'book'
 
 
 class BookModelAdmin(TreeModelAdmin):
     model = Book
+    child_field = 'volume_set'
+    child_model_admin = VolumeModelAdmin
     parent_field = 'author'
 
 

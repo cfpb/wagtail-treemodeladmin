@@ -58,5 +58,13 @@
             "title": "The Chronicles of Narnia",
             "author_id": 3
         }
+    },
+    {
+        "pk": 1,
+        "model": "treemodeladmintest.volume",
+        "fields": {
+            "title": "The Fellowship of the Ring",
+            "book_id": 1
+        }
     }
 ]
