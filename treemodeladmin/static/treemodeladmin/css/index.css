@@ -7,3 +7,7 @@ header .button-small {
 header .button-small:hover {
     background: #358c8b;
 }
+
+header .button.bicolor {
+    background: #358c8b;
+}
