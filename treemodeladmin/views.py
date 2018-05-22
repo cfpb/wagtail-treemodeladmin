@@ -69,12 +69,12 @@ class TreeViewParentMixin(object):
             )
 
             if model_admin.has_parent():
+                model_admin = model_admin.parent
                 parent_instance = getattr(
                     parent_instance,
                     model_admin.parent_field,
                     None
                 )
-                model_admin = model_admin.parent
             else:
                 model_admin = None
 

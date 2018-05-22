@@ -26,4 +26,12 @@ class Migration(migrations.Migration):
                 ('author', models.ForeignKey(to='treemodeladmintest.Author', on_delete=django.db.models.deletion.PROTECT)),
             ],
         ),
+        migrations.CreateModel(
+            name='Volume',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(max_length=255)),
+                ('book', models.ForeignKey(to='treemodeladmintest.Book', on_delete=django.db.models.deletion.PROTECT)),
+            ],
+        ),
     ]

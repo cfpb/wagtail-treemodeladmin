@@ -73,7 +73,7 @@ class TestBookIndexView(TestCase, WagtailTestUtils):
 
     def test_has_child_admin(self):
         response = self.get(author=1)
-        self.assertFalse(response.context['view'].has_child_admin)
+        self.assertTrue(response.context['view'].has_child_admin)
 
     def test_book_listing_parent_edit_link_filtered(self):
         response = self.get(author=1)
@@ -169,12 +169,12 @@ class TestBookDeleteView(TestCase, WagtailTestUtils):
         )
 
     def test_post(self):
-        response = self.post(1)
+        response = self.post(2)
         self.assertRedirects(
             response,
             '/admin/treemodeladmintest/book/?author=1'
         )
-        self.assertFalse(Book.objects.filter(id=1).exists())
+        self.assertFalse(Book.objects.filter(id=2).exists())
 
 
 class TestAuthorDeleteView(TestCase, WagtailTestUtils):
@@ -205,3 +205,37 @@ class TestAuthorDeleteView(TestCase, WagtailTestUtils):
         response = self.post(4)
         self.assertRedirects(response, '/admin/treemodeladmintest/author/')
         self.assertFalse(Author.objects.filter(id=4).exists())
+
+
+class TestVolumeIndexView(TestCase, WagtailTestUtils):
+    fixtures = ['treemodeladmin_test.json']
+
+    def setUp(self):
+        self.user = self.login()
+
+    def get(self, **params):
+        return self.client.get('/admin/treemodeladmintest/volume/', params)
+
+    def test_has_child_admin(self):
+        response = self.get()
+        self.assertFalse(response.context['view'].has_child_admin)
+
+    def test_volume_listing_filtered(self):
+        response = self.get(book=1)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['result_count'], 1)
+        self.assertEqual(
+            response.context['view'].get_page_title(),
+            'The Lord of the Rings'
+        )
+
+    def test_breadcrumbs_with_parents(self):
+        resposne = self.get(book=1)
+        self.assertEqual(
+            list(resposne.context['view'].breadcrumbs),
+            [
+                ('/admin/treemodeladmintest/author/', 'authors'),
+                ('/admin/treemodeladmintest/book/?author=1', 'books'),
+                ('/admin/treemodeladmintest/volume/?book=1', 'volumes')
+            ]
+        )

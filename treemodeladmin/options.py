@@ -13,7 +13,7 @@ class TreeModelAdmin(ModelAdmin):
     child_field = None
     child_model_admin = None
     child_instance = None
-    parent_field = None
+    parent_field = ''
     index_view_class = TreeIndexView
     create_view_class = TreeCreateView
     delete_view_class = TreeDeleteView
