@@ -1,3 +1,7 @@
+header.hasform {
+    margin-bottom: 0;
+}
+
 header .button-small {
     background-color: transparent;
     color: #fff;
@@ -10,4 +14,8 @@ header .button-small:hover {
 
 header .button.bicolor {
     background: #358c8b;
+}
+
+.result-list.col12 {
+    padding: 0;
 }
