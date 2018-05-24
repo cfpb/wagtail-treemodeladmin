@@ -13,6 +13,7 @@ class AuthorHasChildModelAdmin(TreeModelAdmin):
     model = Author
     child_field = 'book_set'
     child_model_admin = BookHasParentModelAdmin
+    index_view_extra_css = ['authors.css']
 
 
 class AuthorPlainModelAdmin(TreeModelAdmin):
@@ -92,6 +93,18 @@ class TestTreeModelAdmin(TestCase):
         self.assertEqual(
             self.author_model_admin.get_parent_field(),
             None
+        )
+
+    def test_get_index_view_extra_css(self):
+        self.assertEqual(
+            self.author_model_admin.get_index_view_extra_css(),
+            ['treemodeladmin/css/index.css', 'authors.css']
+        )
+
+    def test_get_index_view_extra_css_none(self):
+        self.assertEqual(
+            self.plain_model_admin.get_index_view_extra_css(),
+            ['treemodeladmin/css/index.css']
         )
 
     def test_get_admin_urls_for_registration_child(self):

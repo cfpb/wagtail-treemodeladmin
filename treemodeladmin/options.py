@@ -18,6 +18,7 @@ class TreeModelAdmin(ModelAdmin):
     create_view_class = TreeCreateView
     delete_view_class = TreeDeleteView
     edit_view_class = TreeEditView
+    index_view_extra_css = []
     index_template_name = 'treemodeladmin/index.html'
     button_helper_class = TreeButtonHelper
     url_helper_class = TreeAdminURLHelper
@@ -54,6 +55,11 @@ class TreeModelAdmin(ModelAdmin):
     def get_parent_field(self):
         if self.has_parent():
             return self.parent_field
+
+    def get_index_view_extra_css(self):
+        css = ['treemodeladmin/css/index.css']
+        css.extend(self.index_view_extra_css)
+        return css
 
     def get_admin_urls_for_registration(self, parent=None):
         urls = super(TreeModelAdmin, self).get_admin_urls_for_registration()
