@@ -26,9 +26,16 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='CC0',
-    version='1.0.0',
+    version='1.0.1',
     include_package_data=True,
     packages=find_packages(),
+    package_data={
+        'treemodeladmin': [
+            'templates/treemodeladmin/*',
+            'templates/treemodeladmin/includes/*',
+            'static/treemodeladmin/css/*'
+        ]
+    },
     install_requires=install_requires,
     extras_require={
         'testing': testing_extras,
