@@ -1,17 +1,11 @@
-All notable changes to this project will be documented in this file.
-We follow the [Semantic Versioning 2.0.0](http://semver.org/) format.
+See the project repository release history at:
 
+https://github.com/cfpb/wagtail-treemodeladmin/releases
 
-## x.y.z - YYYY-MM-DD
+or, from the command line:
 
-### Added
-- Lorem ipsum dolor sit amet
+```
+git show 1.0.0
+```
 
-### Deprecated
-- Nothing.
-
-### Removed
-- Nothing.
-
-### Fixed
-- Nothing.
+To show the 1.0.0 release changes.
