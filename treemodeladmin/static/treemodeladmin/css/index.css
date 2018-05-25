@@ -19,3 +19,7 @@ header .button.bicolor {
 .result-list.col12 {
     padding: 0;
 }
+
+.result-list td:not([class$=children]) {
+  vertical-align: top;
+}
