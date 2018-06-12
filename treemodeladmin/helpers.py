@@ -20,7 +20,8 @@ class TreeAdminURLHelper(AdminURLHelper):
             parent_pk=quote(parent_pk)
         )
 
-    def crumb(self, parent_field=None, parent_instance=None):
+    def crumb(self, parent_field=None, parent_instance=None,
+              specific_instance=None):
         if parent_field is not None and parent_instance is not None:
             index_url = self.get_index_url_with_parent(
                 parent_field,
@@ -29,9 +30,14 @@ class TreeAdminURLHelper(AdminURLHelper):
         else:
             index_url = self.index_url
 
+        if specific_instance is not None:
+            crumb_text = force_text(specific_instance)
+        else:
+            crumb_text = force_text(self.opts.verbose_name_plural)
+
         return (
             index_url,
-            force_text(self.opts.verbose_name_plural)
+            crumb_text
         )
 
 

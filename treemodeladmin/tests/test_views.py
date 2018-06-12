@@ -43,6 +43,26 @@ class TestAuthorIndexView(TestCase, WagtailTestUtils):
         )
 
 
+class TestAuthorCreateView(TestCase, WagtailTestUtils):
+    fixtures = ['treemodeladmin_test.json']
+
+    def setUp(self):
+        self.user = self.login()
+
+    def post(self, post_data):
+        return self.client.post('/admin/treemodeladmintest/author/create/',
+                                post_data)
+
+    def test_create_redirects_to_plain_index(self):
+        response = self.post({
+            'name': 'P. G. Wodehouse',
+        })
+
+        # Should redirect back to
+        self.assertRedirects(response,
+                             '/admin/treemodeladmintest/author/')
+
+
 class TestBookIndexView(TestCase, WagtailTestUtils):
     fixtures = ['treemodeladmin_test.json']
 
@@ -95,7 +115,7 @@ class TestBookIndexView(TestCase, WagtailTestUtils):
         self.assertEqual(
             list(resposne.context['view'].breadcrumbs),
             [
-                ('/admin/treemodeladmintest/author/', 'authors'),
+                ('/admin/treemodeladmintest/author/', 'J. R. R. Tolkien'),
                 ('/admin/treemodeladmintest/book/?author=1', 'books')
             ]
         )
@@ -234,8 +254,9 @@ class TestVolumeIndexView(TestCase, WagtailTestUtils):
         self.assertEqual(
             list(resposne.context['view'].breadcrumbs),
             [
-                ('/admin/treemodeladmintest/author/', 'authors'),
-                ('/admin/treemodeladmintest/book/?author=1', 'books'),
+                ('/admin/treemodeladmintest/author/', 'J. R. R. Tolkien'),
+                ('/admin/treemodeladmintest/book/?author=1',
+                 'The Lord of the Rings'),
                 ('/admin/treemodeladmintest/volume/?book=1', 'volumes')
             ]
         )
