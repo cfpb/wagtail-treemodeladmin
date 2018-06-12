@@ -57,6 +57,7 @@ class TreeViewParentMixin(object):
     @property
     def breadcrumbs(self):
         parent_instance = self.parent_instance
+        specific_instance = None
         model_admin = self.model_admin
 
         breadcrumbs = []
@@ -65,12 +66,14 @@ class TreeViewParentMixin(object):
             breadcrumbs.append(
                 model_admin.url_helper.crumb(
                     parent_field=model_admin.parent_field,
-                    parent_instance=parent_instance
+                    parent_instance=parent_instance,
+                    specific_instance=specific_instance
                 )
             )
 
             if model_admin.has_parent():
                 model_admin = model_admin.parent
+                specific_instance = parent_instance
                 parent_instance = getattr(
                     parent_instance,
                     model_admin.parent_field,
