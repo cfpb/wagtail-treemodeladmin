@@ -1,9 +1,11 @@
 from django.conf.urls import include, url
 
+import wagtail
 
-try:
+
+if wagtail.VERSION >= (2, 0):
     from wagtail.admin import urls as wagtailadmin_urls
-except ImportError:
+else:
     from wagtail.wagtailadmin import urls as wagtailadmin_urls
 
 
