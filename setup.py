@@ -6,8 +6,8 @@ with open('README.md') as f:
 
 
 install_requires = [
-    'Django>=1.8,<2.1',
-    'wagtail>=1.13,<2.1',
+    'Django>=1.11,<2.1',
+    'wagtail>=1.13,<2.3',
 ]
 
 
@@ -43,8 +43,8 @@ setup(
     classifiers=[
         'Framework :: Django',
         'Framework :: Django :: 1.11',
-        'Framework :: Django :: 1.8',
         'Framework :: Django :: 2.0',
+        'Framework :: Django :: 2.1',
         'Framework :: Wagtail',
         'Framework :: Wagtail :: 1',
         'Framework :: Wagtail :: 2',

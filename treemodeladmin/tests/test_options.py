@@ -98,13 +98,16 @@ class TestTreeModelAdmin(TestCase):
     def test_get_index_view_extra_css(self):
         self.assertEqual(
             self.author_model_admin.get_index_view_extra_css(),
-            ['treemodeladmin/css/index.css', 'authors.css']
+            ['wagtailmodeladmin/css/index.css',
+             'treemodeladmin/css/index.css',
+             'authors.css']
         )
 
     def test_get_index_view_extra_css_none(self):
         self.assertEqual(
             self.plain_model_admin.get_index_view_extra_css(),
-            ['treemodeladmin/css/index.css']
+            ['wagtailmodeladmin/css/index.css',
+             'treemodeladmin/css/index.css']
         )
 
     def test_get_admin_urls_for_registration_child(self):

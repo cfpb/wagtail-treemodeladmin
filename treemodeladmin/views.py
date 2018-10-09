@@ -13,9 +13,9 @@ from wagtail.contrib.modeladmin.views import (
 )
 
 
-try:
+try:  # pragma: no cover
     from wagtail.admin import messages
-except ImportError:
+except ImportError:  # pragma: no cover
     from wagtail.wagtailadmin import messages
 
 
