@@ -6,8 +6,8 @@ with open('README.md') as f:
 
 
 install_requires = [
-    'Django>=1.11,<2.1',
-    'wagtail>=1.13,<2.3',
+    'Django>=1.11,<2.2',
+    'wagtail>=1.13,<2.4',
 ]
 
 
@@ -26,7 +26,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='CC0',
-    version='1.0.4',
+    version='1.0.5',
     include_package_data=True,
     packages=find_packages(),
     package_data={
