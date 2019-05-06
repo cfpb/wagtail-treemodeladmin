@@ -6,8 +6,8 @@ with open('README.md') as f:
 
 
 install_requires = [
-    'Django>=1.11,<2.2',
-    'wagtail>=1.13,<2.4',
+    'Django>=1.11,<2.3',
+    'wagtail>=1.13,<2.6',
 ]
 
 
@@ -45,6 +45,7 @@ setup(
         'Framework :: Django :: 1.11',
         'Framework :: Django :: 2.0',
         'Framework :: Django :: 2.1',
+        'Framework :: Django :: 2.2',
         'Framework :: Wagtail',
         'Framework :: Wagtail :: 1',
         'Framework :: Wagtail :: 2',
@@ -55,5 +56,6 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ]
 )
