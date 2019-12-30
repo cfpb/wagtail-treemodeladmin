@@ -24,6 +24,6 @@ header .button.bicolor {
     padding-right: 0;
 }
 
-.listing td.children {
+.listing td.children, .listing td.no-children {
     vertical-align: middle;
 }
