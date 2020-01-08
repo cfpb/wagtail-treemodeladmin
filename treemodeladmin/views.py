@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.admin.utils import unquote
 from django.db import models
 from django.shortcuts import get_object_or_404, redirect
@@ -144,12 +143,6 @@ class TreeIndexView(TreeViewParentMixin, IndexView):
     @cached_property
     def child_name_plural(self):
         return self.model_admin.get_child_name_plural()
-
-    @cached_property
-    def media(self):
-        return forms.Media(
-            css={'all': self.model_admin.get_index_view_extra_css()}
-        )
 
     @cached_property
     def child_url_helper(self):
