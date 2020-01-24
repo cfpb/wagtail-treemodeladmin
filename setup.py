@@ -7,7 +7,7 @@ with open('README.md') as f:
 
 install_requires = [
     'Django>=1.11,<2.3',
-    'wagtail>=1.13,<2.6',
+    'wagtail>=1.13,<2.8',
 ]
 
 
@@ -52,8 +52,6 @@ setup(
         'License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication',
         'License :: Public Domain',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
