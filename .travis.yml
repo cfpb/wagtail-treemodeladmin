@@ -6,8 +6,6 @@ matrix:
   include:
     - env: TOXENV=lint
       python: 3.6
-    - env: TOXENV=py27-dj111-wag113
-      python: 2.7
     - env: TOXENV=py36-dj111-wag113
       python: 3.6
     - env: TOXENV=py36-dj111-wag22
@@ -17,6 +15,8 @@ matrix:
     - env: TOXENV=py36-dj21-wag24 
       python: 3.6
     - env: TOXENV=py36-dj22-wag25 
+      python: 3.6
+    - env: TOXENV=py36-dj22-wag27
       python: 3.6
 
 install:
