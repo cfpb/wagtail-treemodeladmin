@@ -7,7 +7,7 @@ with open('README.md') as f:
 
 install_requires = [
     'Django>=1.11,<2.3',
-    'wagtail>=1.13,<2.8',
+    'wagtail>=1.13,<2.9',
 ]
 
 
