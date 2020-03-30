@@ -4,18 +4,13 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
+from wagtail.admin import messages
 from wagtail.contrib.modeladmin.views import (
     CreateView,
     DeleteView,
     EditView,
     IndexView,
 )
-
-
-try:  # pragma: no cover
-    from wagtail.admin import messages
-except ImportError:  # pragma: no cover
-    from wagtail.wagtailadmin import messages
 
 
 class TreeViewParentMixin(object):
