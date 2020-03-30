@@ -13,13 +13,13 @@ class TreeModelAdmin(ModelAdmin):
     child_field = None
     child_model_admin = None
     child_instance = None
-    parent_field = ''
+    parent_field = ""
     index_view_class = TreeIndexView
     create_view_class = TreeCreateView
     delete_view_class = TreeDeleteView
     edit_view_class = TreeEditView
     index_view_extra_css = []
-    index_template_name = 'treemodeladmin/index.html'
+    index_template_name = "treemodeladmin/index.html"
     button_helper_class = TreeButtonHelper
     url_helper_class = TreeAdminURLHelper
 
@@ -31,14 +31,15 @@ class TreeModelAdmin(ModelAdmin):
 
     def has_child(self):
         return (
-            (self.child_field is not None) and
-            (self.child_model_admin is not None) and
-            hasattr(self.model, self.child_field)
+            (self.child_field is not None)
+            and (self.child_model_admin is not None)
+            and hasattr(self.model, self.child_field)
         )
 
     def has_parent(self):
-        return (self.parent is not None and
-                isinstance(self.parent, TreeModelAdmin))
+        return self.parent is not None and isinstance(
+            self.parent, TreeModelAdmin
+        )
 
     def get_child_field(self):
         if self.has_child():
@@ -58,8 +59,8 @@ class TreeModelAdmin(ModelAdmin):
 
     def get_index_view_extra_css(self):
         css = [
-            'wagtailmodeladmin/css/index.css',
-            'treemodeladmin/css/index.css'
+            "wagtailmodeladmin/css/index.css",
+            "treemodeladmin/css/index.css",
         ]
         css.extend(self.index_view_extra_css)
         return css

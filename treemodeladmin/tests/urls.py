@@ -10,5 +10,5 @@ else:
 
 
 urlpatterns = [
-    url(r'^admin/', include(wagtailadmin_urls)),
+    url(r"^admin/", include(wagtailadmin_urls)),
 ]
