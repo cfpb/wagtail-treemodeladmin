@@ -21,7 +21,6 @@ Wagtail-TreeModelAdmin is an extension for Wagtail's [ModelAdmin](http://docs.wa
 ## Dependencies
 
 - Python 3.6, 3.8
-- Django 1.11, 2.0, 2.2
 - Wagtail 2.3, 2.8
 
 It should be compatible with all intermediate versions, as well.
