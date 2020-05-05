@@ -6,7 +6,7 @@ with open("README.md") as f:
 
 
 install_requires = [
-    "wagtail>=2.3,<2.9",
+    "wagtail>=2.3,<2.10",
 ]
 
 
@@ -39,7 +39,8 @@ setup(
     extras_require={"testing": testing_extras},
     classifiers=[
         "Framework :: Django",
-        "Framework :: Django :: 3",
+        "Framework :: Django :: 1.11",
+        "Framework :: Django :: 2.2",
         "Framework :: Wagtail",
         "Framework :: Wagtail :: 2",
         "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
