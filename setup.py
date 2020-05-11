@@ -6,8 +6,7 @@ with open("README.md") as f:
 
 
 install_requires = [
-    "Django>=1.11,<2.3",
-    "wagtail>=2.3,<2.9",
+    "wagtail>=2.3,<2.10",
 ]
 
 
@@ -26,7 +25,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="CC0",
-    version="1.1.1",
+    version="1.2.0",
     include_package_data=True,
     packages=find_packages(),
     package_data={
@@ -41,8 +40,6 @@ setup(
     classifiers=[
         "Framework :: Django",
         "Framework :: Django :: 1.11",
-        "Framework :: Django :: 2.0",
-        "Framework :: Django :: 2.1",
         "Framework :: Django :: 2.2",
         "Framework :: Wagtail",
         "Framework :: Wagtail :: 2",
