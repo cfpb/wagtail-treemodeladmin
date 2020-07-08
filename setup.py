@@ -6,7 +6,7 @@ with open("README.md") as f:
 
 
 install_requires = [
-    "wagtail~=2.0",
+    "wagtail>=2.3,<2.10",
 ]
 
 
@@ -25,7 +25,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="CC0",
-    version="1.2.0",
+    version="1.2",
     include_package_data=True,
     packages=find_packages(),
     package_data={
