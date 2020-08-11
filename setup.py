@@ -6,7 +6,7 @@ with open("README.md") as f:
 
 
 install_requires = [
-    "wagtail>=2.3,<2.10",
+    "wagtail>=2.3,<2.11",
 ]
 
 
