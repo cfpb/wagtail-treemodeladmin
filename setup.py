@@ -25,7 +25,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="CC0",
-    version="1.2",
+    version="1.2.1",
     include_package_data=True,
     packages=find_packages(),
     package_data={
