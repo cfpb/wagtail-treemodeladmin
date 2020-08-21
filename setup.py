@@ -1,20 +1,10 @@
 from setuptools import find_packages, setup
 
-
-with open("README.md") as f:
-    long_description = f.read()
-
-
 install_requires = [
-    "wagtail>=2.3,<2.11",
+    "wagtail>=2.7,<2.11",
 ]
 
-
-testing_extras = [
-    "mock>=2.0.0",
-    "coverage>=3.7.0",
-]
-
+testing_extras = ["coverage>=3.7.0"]
 
 setup(
     name="wagtail-treemodeladmin",
@@ -22,10 +12,10 @@ setup(
     author="CFPB",
     author_email="tech@cfpb.gov",
     description="TreeModelAdmin for Wagtail",
-    long_description=long_description,
+    long_description=open("README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     license="CC0",
-    version="1.2.1",
+    version="1.2.2",
     include_package_data=True,
     packages=find_packages(),
     package_data={
@@ -40,8 +30,8 @@ setup(
     extras_require={"testing": testing_extras},
     classifiers=[
         "Framework :: Django",
-        "Framework :: Django :: 1.11",
         "Framework :: Django :: 2.2",
+        "Framework :: Django :: 3.1",
         "Framework :: Wagtail",
         "Framework :: Wagtail :: 2",
         "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",

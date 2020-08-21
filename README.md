@@ -1,7 +1,7 @@
 # Wagtail-TreeModelAdmin
 
-[![Build Status](https://travis-ci.org/cfpb/wagtail-treemodeladmin.svg?branch=master)](https://travis-ci.org/cfpb/wagtail-treemodeladmin)
-[![Coverage Status](https://coveralls.io/repos/github/cfpb/wagtail-treemodeladmin/badge.svg?branch=master)](https://coveralls.io/github/cfpb/wagtail-treemodeladmin?branch=master)
+[![Build Status](https://travis-ci.org/cfpb/wagtail-treemodeladmin.svg?branch=main)](https://travis-ci.org/cfpb/wagtail-treemodeladmin)
+[![Coverage Status](https://coveralls.io/repos/github/cfpb/wagtail-treemodeladmin/badge.svg?branch=main)](https://coveralls.io/github/cfpb/wagtail-treemodeladmin?branch=main)
 
 ![TreeModelAdmin illustration with the books and authors example below](treemodeladmin.gif)
 
@@ -20,9 +20,9 @@ Wagtail-TreeModelAdmin is an extension for Wagtail's [ModelAdmin](http://docs.wa
 
 ## Dependencies
 
-- Python 3.6, 3.8
-- Django 1.11, 2.2
-- Wagtail 2.3, 2.9, 2.10
+- Python 3.6+
+- Django 2.2 (LTS), 3.1 (current)
+- Wagtail 2.7 (LTS), 2.10 (current)
 
 It should be compatible with all intermediate versions, as well.
 If you find that it is not, please [file an issue](https://github.com/cfpb/wagtail-treemodeladmin/issues/new).
