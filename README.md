@@ -1,6 +1,6 @@
 # Wagtail-TreeModelAdmin
 
-[![Build Status](https://travis-ci.org/cfpb/wagtail-treemodeladmin.svg?branch=main)](https://travis-ci.org/cfpb/wagtail-treemodeladmin)
+![Build Status](https://github.com/cfpb/wagtail-treemodeladmin/workflows/test/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/cfpb/wagtail-treemodeladmin/badge.svg?branch=main)](https://coveralls.io/github/cfpb/wagtail-treemodeladmin?branch=main)
 
 ![TreeModelAdmin illustration with the books and authors example below](treemodeladmin.gif)
