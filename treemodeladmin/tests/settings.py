@@ -60,7 +60,10 @@ INSTALLED_APPS = (
         "taggit",
     )
     + WAGTAIL_APPS
-    + ("treemodeladmin", "treemodeladmin.tests.treemodeladmintest",)
+    + (
+        "treemodeladmin",
+        "treemodeladmin.tests.treemodeladmintest",
+    )
 )
 
 STATIC_URL = "/static/"
