@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 install_requires = [
-    "wagtail>=2.7,<3",
+    "wagtail>=2.11,<3",
 ]
 
 testing_extras = ["coverage>=3.7.0"]
@@ -15,7 +15,7 @@ setup(
     long_description=open("README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     license="CC0",
-    version="1.4.0",
+    version="1.5.0",
     include_package_data=True,
     packages=find_packages(),
     package_data={
