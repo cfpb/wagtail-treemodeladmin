@@ -1,8 +1,8 @@
-{% load i18n %}
-<ul class="breadcrumb">
-    <li class="home"><a href="{% url 'wagtailadmin_home' %}" class="icon icon-home text-replace">{% trans 'Home' %}</a></li>
+{% load i18n wagtailadmin_tags %}
 
+<ul class="breadcrumb">
+    <li class="home"><a href="{% url 'wagtailadmin_home' %}">{% icon name="home" class_name="home_icon" title=home %}{% icon name="arrow-right" class_name="arrow_right_icon" %}</a></li>
     {% for index_url,name in view.breadcrumbs %}
-        <li><a href="{{ index_url }}">{{ name|capfirst }}</a></li>
+        <li><a href="{{ index_url }}"><span class="title">{{ name|capfirst }}</span>{% icon name="arrow-right" class_name="arrow_right_icon" %}</a></li>
     {% endfor %}
 </ul>
