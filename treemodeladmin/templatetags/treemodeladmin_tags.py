@@ -13,7 +13,7 @@ register = Library()
     "treemodeladmin/includes/tree_result_list.html", takes_context=True
 )
 def tree_result_list(context):
-    """ Displays the headers and data list together with a link to children """
+    """Displays the headers and data list together with a link to children"""
     context = result_list(context)
     return context
 

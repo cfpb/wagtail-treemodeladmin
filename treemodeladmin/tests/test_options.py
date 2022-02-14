@@ -92,11 +92,11 @@ class TestTreeModelAdmin(TestCase):
         )
 
     def test_get_admin_urls_for_registration_child(self):
-        self.assertEqual(
+        self.assertGreaterEqual(
             len(self.author_model_admin.get_admin_urls_for_registration()), 8
         )
 
     def test_get_admin_urls_for_registration_no_child(self):
-        self.assertEqual(
+        self.assertGreaterEqual(
             len(self.book_model_admin.get_admin_urls_for_registration()), 4
         )
