@@ -1,5 +1,7 @@
 import os
 
+import wagtail
+
 
 DEBUG = True
 
@@ -26,19 +28,39 @@ WAGTAIL_APPS = (
     "wagtail.contrib.forms",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.settings",
-    "wagtail.tests.testapp",
     "wagtail.admin",
-    "wagtail.core",
     "wagtail.documents",
     "wagtail.images",
     "wagtail.sites",
     "wagtail.users",
 )
 
-WAGTAILADMIN_RICH_TEXT_EDITORS = {
-    "default": {"WIDGET": "wagtail.admin.rich_text.DraftailRichTextArea"},
-    "custom": {"WIDGET": "wagtail.tests.testapp.rich_text.CustomRichTextArea"},
-}
+if wagtail.VERSION >= (3, 0):
+    WAGTAIL_APPS += (
+        "wagtail",
+        "wagtail.test.testapp",
+    )
+
+    WAGTAILADMIN_RICH_TEXT_EDITORS = {
+        "default": {"WIDGET": "wagtail.admin.rich_text.DraftailRichTextArea"},
+        "custom": {
+            "WIDGET": "wagtail.test.testapp.rich_text.CustomRichTextArea"
+        },
+    }
+
+else:
+    WAGTAIL_APPS += (
+        "wagtail.core",
+        "wagtail.tests.testapp",
+    )
+
+    WAGTAILADMIN_RICH_TEXT_EDITORS = {
+        "default": {"WIDGET": "wagtail.admin.rich_text.DraftailRichTextArea"},
+        "custom": {
+            "WIDGET": "wagtail.tests.testapp.rich_text.CustomRichTextArea"
+        },
+    }
+WAGTAILADMIN_BASE_URL = "http://localhost:8000"
 
 MIDDLEWARE = (
     "django.middleware.common.CommonMiddleware",
