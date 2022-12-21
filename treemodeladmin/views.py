@@ -2,7 +2,7 @@ from django.contrib.admin.utils import unquote
 from django.db import models
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from wagtail.admin import messages
 from wagtail.contrib.modeladmin.views import (
