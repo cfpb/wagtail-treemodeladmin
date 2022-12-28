@@ -104,7 +104,7 @@ class TreeIndexView(TreeViewParentMixin, IndexView):
         )
         return parent_button_helper.edit_button(
             self.parent_instance.pk,
-            classnames_add=["button-secondary", "button-small"],
+            classnames_add=["button-small"],
         )
 
     def get_children(self, obj):
