@@ -20,9 +20,9 @@ Wagtail-TreeModelAdmin is an extension for Wagtail's [ModelAdmin](http://docs.wa
 
 ## Dependencies
 
-- Python 3.6+
-- Django 2.2 (LTS), 3.1 (current)
-- Wagtail 2.11 (LTS), <3 (current)
+- Python 3.8+
+- Django 3.2 (LTS), 4.1 (current)
+- Wagtail 2.15 (LTS), <4 (current)
 
 It should be compatible with all intermediate versions, as well.
 If you find that it is not, please [file an issue](https://github.com/cfpb/wagtail-treemodeladmin/issues/new).
@@ -48,7 +48,7 @@ pip install wagtail-treemodeladmin
 
 ## Concepts
 
-Wagtail-TreeModelAdmin allows for a Wagtail page explorer-like navigation of Django one-to-many relationships within the Wagtail admin. In doing this, it conceptualizes the Django [`ForeignKey`](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ForeignKey) relationship as one of parents-to-children. The parent is the destination `to` of the `ForeignKey` relationship, the child is the source of the relationship. 
+Wagtail-TreeModelAdmin allows for a Wagtail page explorer-like navigation of Django one-to-many relationships within the Wagtail admin. In doing this, it conceptualizes the Django [`ForeignKey`](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ForeignKey) relationship as one of parents-to-children. The parent is the destination `to` of the `ForeignKey` relationship, the child is the source of the relationship.
 
 Wagtail-TreeModelAdmin is an extension of [Wagtail's ModelAdmin](http://docs.wagtail.io/en/latest/reference/contrib/modeladmin/index.html). It is intended to be used exactly like `ModelAdmin`.
 
@@ -104,7 +104,7 @@ Then visit the Wagtail admin. `Library` will be in the menu, and will give you a
 Wagtail-TreeModelAdmin uses three new attributes on ModelAdmin subclasses to express parent/child relationships:
 
 - `parent_field`: The name of the Django [`ForeignKey`](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ForeignKey) on a child model.
-- `child_field`: The [`related_name`](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ForeignKey.related_name) on a Django `ForeignKey`. 
+- `child_field`: The [`related_name`](https://docs.djangoproject.com/en/3.2/ref/models/fields/#django.db.models.ForeignKey.related_name) on a Django `ForeignKey`.
 - `child_model_admin`
 
 Any `TreeModelAdmin` subclass can specify both parent and child relationships. The root of the tree (either the `TreeModelAdmin` included in a `ModelAdminGroup` or the `@modeladmin_register`ed `TreeModelAdmin` subclass) should only include `child_*` fields.
