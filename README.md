@@ -104,7 +104,7 @@ Then visit the Wagtail admin. `Library` will be in the menu, and will give you a
 Wagtail-TreeModelAdmin uses three new attributes on ModelAdmin subclasses to express parent/child relationships:
 
 - `parent_field`: The name of the Django [`ForeignKey`](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ForeignKey) on a child model.
-- `child_field`: The [`related_name`](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ForeignKey.related_name) on a Django `ForeignKey`.
+- `child_field`: The [`related_name`](https://docs.djangoproject.com/en/3.2/ref/models/fields/#django.db.models.ForeignKey.related_name) on a Django `ForeignKey`.
 - `child_model_admin`
 
 Any `TreeModelAdmin` subclass can specify both parent and child relationships. The root of the tree (either the `TreeModelAdmin` included in a `ModelAdminGroup` or the `@modeladmin_register`ed `TreeModelAdmin` subclass) should only include `child_*` fields.
