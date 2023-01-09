@@ -2,20 +2,6 @@ header.hasform {
     margin-bottom: 0;
 }
 
-header .button-small {
-    background-color: transparent;
-    color: #fff;
-    border-color: #358c8b;
-}
-
-header .button-small:hover {
-    background: #358c8b;
-}
-
-header .button.bicolor {
-    background: #358c8b;
-}
-
 .result-list.col12 {
     padding: 0;
 }
