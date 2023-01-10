@@ -116,8 +116,11 @@ class TestBookIndexView(TestCase, WagtailTestUtils):
         self.assertEqual(
             list(resposne.context["view"].breadcrumbs),
             [
-                ("/admin/treemodeladmintest/author/", "J. R. R. Tolkien"),
-                ("/admin/treemodeladmintest/book/?author=1", "books"),
+                ("/admin/treemodeladmintest/author/", "authors"),
+                (
+                    "/admin/treemodeladmintest/book/?author=1",
+                    "J. R. R. Tolkien",
+                ),
             ],
         )
 
@@ -251,11 +254,14 @@ class TestVolumeIndexView(TestCase, WagtailTestUtils):
         self.assertEqual(
             list(resposne.context["view"].breadcrumbs),
             [
-                ("/admin/treemodeladmintest/author/", "J. R. R. Tolkien"),
+                ("/admin/treemodeladmintest/author/", "authors"),
                 (
                     "/admin/treemodeladmintest/book/?author=1",
+                    "J. R. R. Tolkien",
+                ),
+                (
+                    "/admin/treemodeladmintest/volume/?book=1",
                     "The Lord of the Rings",
                 ),
-                ("/admin/treemodeladmintest/volume/?book=1", "volumes"),
             ],
         )
