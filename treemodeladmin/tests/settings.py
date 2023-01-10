@@ -31,6 +31,7 @@ WAGTAIL_APPS = (
     "wagtail.admin",
     "wagtail.documents",
     "wagtail.images",
+    "wagtail.snippets",
     "wagtail.sites",
     "wagtail.users",
 )

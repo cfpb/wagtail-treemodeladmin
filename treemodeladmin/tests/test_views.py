@@ -42,6 +42,10 @@ class TestAuthorIndexView(TestCase, WagtailTestUtils):
             [("/admin/treemodeladmintest/author/", "authors")],
         )
 
+    def test_get_context_data(self):
+        response = self.get()
+        self.assertFalse(response.context["user_can_edit"])
+
 
 class TestAuthorCreateView(TestCase, WagtailTestUtils):
     fixtures = ["treemodeladmin_test.json"]
@@ -116,6 +120,10 @@ class TestBookIndexView(TestCase, WagtailTestUtils):
                 ("/admin/treemodeladmintest/book/?author=1", "books"),
             ],
         )
+
+    def test_get_context_data(self):
+        response = self.get(author=1)
+        self.assertTrue(response.context["user_can_edit"])
 
 
 class TestBookCreateView(TestCase, WagtailTestUtils):

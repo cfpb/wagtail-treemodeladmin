@@ -1,8 +1,28 @@
 {% extends "modeladmin/index.html" %}
-{% load i18n modeladmin_tags treemodeladmin_tags %}
+{% load i18n modeladmin_tags wagtailadmin_tags treemodeladmin_tags %}
 
-{% block header %}
-    {% include "treemodeladmin/includes/header.html" %}
+{% block breadcrumb %}
+    {% include "treemodeladmin/includes/breadcrumb.html" %}
+{% endblock %}
+
+{% block h1 %}
+    <h1>
+        {{ view.get_page_title }}
+        {% if view.get_page_subtitle %} <span class="header__subtitle">{{ view.get_page_subtitle }}</span> {% endif %}
+    </h1>
+{% endblock %}
+
+{% block header_extra %}
+    <div class="right header-right">
+        {% if view.list_export or user_can_create %}
+            <div class="actionbutton">
+                {% if user_can_create %}
+                    {% include 'modeladmin/includes/button.html' with button=view.get_parent_edit_button %}
+                    {% include 'modeladmin/includes/button.html' with button=view.get_add_button_with_parent %}
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block result_list %}

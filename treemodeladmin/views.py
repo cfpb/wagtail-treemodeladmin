@@ -118,6 +118,18 @@ class TreeIndexView(TreeViewParentMixin, IndexView):
             )
         return self.button_helper.add_button
 
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        user_can_edit = (
+            self.permission_helper.user_can_edit_obj(
+                user, self.parent_instance
+            )
+            if self.parent_instance is not None
+            else False
+        )
+        context = {"user_can_edit": user_can_edit}
+        return super().get_context_data(**context)
+
     @cached_property
     def has_child_admin(self):
         return self.model_admin.child_instance is not None
