@@ -59,7 +59,6 @@ class TreeModelAdmin(ModelAdmin):
 
     def get_index_view_extra_css(self):
         css = [
-            "wagtailmodeladmin/css/index.css",
             "treemodeladmin/css/index.css",
         ]
         css.extend(self.index_view_extra_css)
