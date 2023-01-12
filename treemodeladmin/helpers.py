@@ -1,5 +1,5 @@
 from django.contrib.admin.utils import quote
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 
@@ -30,9 +30,9 @@ class TreeAdminURLHelper(AdminURLHelper):
             index_url = self.index_url
 
         if specific_instance is not None:
-            crumb_text = force_text(specific_instance)
+            crumb_text = force_str(specific_instance)
         else:
-            crumb_text = force_text(self.opts.verbose_name_plural)
+            crumb_text = force_str(self.opts.verbose_name_plural)
 
         return (index_url, crumb_text)
 

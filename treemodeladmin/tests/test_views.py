@@ -42,6 +42,10 @@ class TestAuthorIndexView(TestCase, WagtailTestUtils):
             [("/admin/treemodeladmintest/author/", "authors")],
         )
 
+    def test_get_context_data(self):
+        response = self.get()
+        self.assertFalse(response.context["user_can_edit"])
+
 
 class TestAuthorCreateView(TestCase, WagtailTestUtils):
     fixtures = ["treemodeladmin_test.json"]
@@ -112,10 +116,17 @@ class TestBookIndexView(TestCase, WagtailTestUtils):
         self.assertEqual(
             list(resposne.context["view"].breadcrumbs),
             [
-                ("/admin/treemodeladmintest/author/", "J. R. R. Tolkien"),
-                ("/admin/treemodeladmintest/book/?author=1", "books"),
+                ("/admin/treemodeladmintest/author/", "authors"),
+                (
+                    "/admin/treemodeladmintest/book/?author=1",
+                    "J. R. R. Tolkien",
+                ),
             ],
         )
+
+    def test_get_context_data(self):
+        response = self.get(author=1)
+        self.assertTrue(response.context["user_can_edit"])
 
 
 class TestBookCreateView(TestCase, WagtailTestUtils):
@@ -243,11 +254,14 @@ class TestVolumeIndexView(TestCase, WagtailTestUtils):
         self.assertEqual(
             list(resposne.context["view"].breadcrumbs),
             [
-                ("/admin/treemodeladmintest/author/", "J. R. R. Tolkien"),
+                ("/admin/treemodeladmintest/author/", "authors"),
                 (
                     "/admin/treemodeladmintest/book/?author=1",
+                    "J. R. R. Tolkien",
+                ),
+                (
+                    "/admin/treemodeladmintest/volume/?book=1",
                     "The Lord of the Rings",
                 ),
-                ("/admin/treemodeladmintest/volume/?book=1", "volumes"),
             ],
         )

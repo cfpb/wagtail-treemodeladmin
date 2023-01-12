@@ -76,7 +76,6 @@ class TestTreeModelAdmin(TestCase):
         self.assertEqual(
             self.author_model_admin.get_index_view_extra_css(),
             [
-                "wagtailmodeladmin/css/index.css",
                 "treemodeladmin/css/index.css",
                 "authors.css",
             ],
@@ -86,7 +85,6 @@ class TestTreeModelAdmin(TestCase):
         self.assertEqual(
             self.plain_model_admin.get_index_view_extra_css(),
             [
-                "wagtailmodeladmin/css/index.css",
                 "treemodeladmin/css/index.css",
             ],
         )

@@ -51,7 +51,6 @@ class TreeViewParentMixin(object):
     @property
     def breadcrumbs(self):
         parent_instance = self.parent_instance
-        specific_instance = None
         model_admin = self.model_admin
 
         breadcrumbs = []
@@ -61,13 +60,12 @@ class TreeViewParentMixin(object):
                 model_admin.url_helper.crumb(
                     parent_field=model_admin.parent_field,
                     parent_instance=parent_instance,
-                    specific_instance=specific_instance,
+                    specific_instance=parent_instance,
                 )
             )
 
             if model_admin.has_parent():
                 model_admin = model_admin.parent
-                specific_instance = parent_instance
                 parent_instance = getattr(
                     parent_instance, model_admin.parent_field, None
                 )
@@ -117,6 +115,18 @@ class TreeIndexView(TreeViewParentMixin, IndexView):
                 self.model_admin.parent_field, self.parent_instance.pk
             )
         return self.button_helper.add_button
+
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        user_can_edit = (
+            self.permission_helper.user_can_edit_obj(
+                user, self.parent_instance
+            )
+            if self.parent_instance is not None
+            else False
+        )
+        context = {"user_can_edit": user_can_edit}
+        return super().get_context_data(**context)
 
     @cached_property
     def has_child_admin(self):

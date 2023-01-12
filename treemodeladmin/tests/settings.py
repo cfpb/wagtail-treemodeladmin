@@ -31,8 +31,10 @@ WAGTAIL_APPS = (
     "wagtail.admin",
     "wagtail.documents",
     "wagtail.images",
+    "wagtail.snippets",
     "wagtail.sites",
     "wagtail.users",
+    "wagtail.contrib.styleguide",
 )
 
 if wagtail.VERSION >= (3, 0):
