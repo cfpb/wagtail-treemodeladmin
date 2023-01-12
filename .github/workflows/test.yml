@@ -32,15 +32,18 @@ jobs:
     strategy:
       matrix:
         toxenv:
-            - py38-dj3-wag2
-            - py38-dj3-wag3
+            - py38-dj3-wag4
+            - py38-dj4-wag4
             - py38-dj3-waglatest
+            - py38-dj4-waglatest
         include:
-          - toxenv: py38-dj3-wag2
+          - toxenv: py38-dj3-wag4
             python-version: 3.8
-          - toxenv: py38-dj3-wag3
+          - toxenv: py38-dj4-wag4
             python-version: 3.8
           - toxenv: py38-dj3-waglatest
+            python-version: 3.8
+          - toxenv: py38-dj4-waglatest
             python-version: 3.8
 
     steps:
