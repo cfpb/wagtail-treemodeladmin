@@ -31,20 +31,13 @@ jobs:
 
     strategy:
       matrix:
-        toxenv:
-            - py38-dj3-wag4
-            - py38-dj4-wag4
-            - py38-dj3-waglatest
-            - py38-dj4-waglatest
+        python: ['3.8', '3.11']
+        django: ['3.2', '4.2']
+        wagtail: ['5.0', '5.1']
         include:
-          - toxenv: py38-dj3-wag4
-            python-version: 3.8
-          - toxenv: py38-dj4-wag4
-            python-version: 3.8
-          - toxenv: py38-dj3-waglatest
-            python-version: 3.8
-          - toxenv: py38-dj4-waglatest
-            python-version: 3.8
+          - python: '3.8'
+            django: '3.2'
+            wagtail: '4.2'
 
     steps:
       - uses: actions/checkout@v3
@@ -52,7 +45,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix.python }}
 
       - name: Install dependencies
         run: |
@@ -63,7 +56,7 @@ jobs:
         run: |
             tox
         env:
-          TOXENV: ${{ matrix.toxenv }}
+          TOXENV: python${{ matrix.python }}-django${{ matrix.django }}-wagtail${{ matrix.wagtail }}
 
       - name: Store test coverage
         uses: actions/upload-artifact@v2
