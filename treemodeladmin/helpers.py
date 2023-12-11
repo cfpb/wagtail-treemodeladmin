@@ -1,7 +1,7 @@
 from django.contrib.admin.utils import quote
 from django.utils.encoding import force_str
 
-from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
+from wagtail_modeladmin.helpers import AdminURLHelper, ButtonHelper
 
 
 class TreeAdminURLHelper(AdminURLHelper):

@@ -1,7 +1,4 @@
-from wagtail.contrib.modeladmin.options import (
-    ModelAdminGroup,
-    modeladmin_register,
-)
+from wagtail_modeladmin.options import ModelAdminGroup, modeladmin_register
 
 from treemodeladmin.options import TreeModelAdmin
 from treemodeladmin.tests.treemodeladmintest.models import Author, Book, Volume

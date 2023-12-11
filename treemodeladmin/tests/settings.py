@@ -24,7 +24,6 @@ DATABASES = {
 
 WAGTAIL_APPS = (
     "wagtail.contrib.forms",
-    "wagtail.contrib.modeladmin",
     "wagtail.contrib.settings",
     "wagtail.admin",
     "wagtail.documents",
@@ -34,6 +33,7 @@ WAGTAIL_APPS = (
     "wagtail.users",
     "wagtail.contrib.styleguide",
     "wagtail",
+    "wagtail_modeladmin",
 )
 
 WAGTAILADMIN_BASE_URL = "http://localhost:8000"
