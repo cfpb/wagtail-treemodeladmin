@@ -5,7 +5,7 @@
 
 ![TreeModelAdmin illustration with the books and authors example below](treemodeladmin.gif)
 
-Wagtail-TreeModelAdmin is an extension for Wagtail's [ModelAdmin](http://docs.wagtail.io/en/latest/reference/contrib/modeladmin/) that allows for a page explorer-like navigation of Django model relationships within the Wagtail admin.
+Wagtail-TreeModelAdmin is an extension for Wagtail's [wagtail-modeladmin](https://github.com/wagtail-nest/wagtail-modeladmin) that allows for a page explorer-like navigation of Django model relationships within the Wagtail admin.
 
 - [Dependencies](#dependencies)
 - [Installation](#installation)
@@ -23,6 +23,7 @@ Wagtail-TreeModelAdmin is an extension for Wagtail's [ModelAdmin](http://docs.wa
 - Python 3.8+
 - Django 3.2 (LTS), 4.1 (current)
 - Wagtail 5.1+
+- [wagtail-modeladmin](https://github.com/wagtail-nest/wagtail-modeladmin)
 
 It should be compatible with all intermediate versions, as well.
 If you find that it is not, please [file an issue](https://github.com/cfpb/wagtail-treemodeladmin/issues/new).
@@ -35,12 +36,12 @@ If you find that it is not, please [file an issue](https://github.com/cfpb/wagta
 pip install wagtail-treemodeladmin
 ```
 
-2. Add `treemodeladmin` (and `wagtail.contrib.modeladmin` if it's not already) as an installed app in your Django `settings.py`:
+2. Add `treemodeladmin` (and `wagtail_modeladmin` if it's not already) as an installed app in your Django `settings.py`:
 
  ```python
  INSTALLED_APPS = (
      ...
-     'wagtail.contrib.modeladmin',
+     'wagtail_modeladmin',
      'treemodeladmin',
      ...
  )
@@ -50,7 +51,7 @@ pip install wagtail-treemodeladmin
 
 Wagtail-TreeModelAdmin allows for a Wagtail page explorer-like navigation of Django one-to-many relationships within the Wagtail admin. In doing this, it conceptualizes the Django [`ForeignKey`](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ForeignKey) relationship as one of parents-to-children. The parent is the destination `to` of the `ForeignKey` relationship, the child is the source of the relationship.
 
-Wagtail-TreeModelAdmin is an extension of [Wagtail's ModelAdmin](http://docs.wagtail.io/en/latest/reference/contrib/modeladmin/index.html). It is intended to be used exactly like `ModelAdmin`.
+Wagtail-TreeModelAdmin is an extension of [wagtail-modeladmin](https://github.com/wagtail-nest/wagtail-modeladmin). It is intended to be used exactly like `ModelAdmin`.
 
 ## Usage
 
@@ -76,7 +77,7 @@ Then create the `TreeModelAdmin` subclasses and register the root the tree using
 
 ```python
 # libraryapp/wagtail_hooks.py
-from wagtail.contrib.modeladmin.options import modeladmin_register
+from wagtail_modeladmin.options import modeladmin_register
 
 from treemodeladmin.options import TreeModelAdmin
 
