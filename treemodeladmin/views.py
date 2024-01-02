@@ -5,7 +5,8 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 
 from wagtail.admin import messages
-from wagtail.contrib.modeladmin.views import (
+
+from wagtail_modeladmin.views import (
     CreateView,
     DeleteView,
     EditView,
