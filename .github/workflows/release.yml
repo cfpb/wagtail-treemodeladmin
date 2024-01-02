@@ -15,11 +15,11 @@ jobs:
         python-version: 3.12
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip build twine
+        python -m pip install --upgrade pip build
     - name: Build the package
       run: |
         python -m build
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@v1
       with:
-        password: ${{ secrets.TWINE_API_KEY }}
+        password: ${{ secrets.PYPI_API_KEY }}
