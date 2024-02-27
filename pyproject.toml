@@ -1,15 +1,15 @@
 [project]
 name = "wagtail-treemodeladmin"
-version = "1.9.0"
+version = "2.0.0"
 description = "TreeModelAdmin for Wagtail"
 readme = "README.md"
 requires-python = ">=3.8"
-license = {text = "CC0"}
+license = { text = "CC0" }
 authors = [
-    {name = "CFPB", email = "tech@cfpb.gov" }
+    { name = "CFPB", email = "tech@cfpb.gov" }
 ]
 dependencies = [
-    "wagtail>=5.1,<5.3",
+    "wagtail>=5.1,<6.0.1",
     "wagtail-modeladmin>=1.0",
 ]
 classifiers = [
