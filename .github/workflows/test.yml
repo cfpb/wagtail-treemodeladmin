@@ -31,9 +31,9 @@ jobs:
 
     strategy:
       matrix:
-        python: ['3.8', '3.12' ]
-        django: ['4.2' ]
-        wagtail: ['5.1', '5.2', '6.0' ]
+        python: [ '3.8', '3.12' ]
+        django: [ '4.2' ]
+        wagtail: [ '5.1', '5.2', '6.0' ]
 
     steps:
       - uses: actions/checkout@v4
