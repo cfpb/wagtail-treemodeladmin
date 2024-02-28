@@ -1,6 +1,6 @@
 name: test
 
-on: [pull_request, push]
+on: [ pull_request, push ]
 
 jobs:
 
@@ -31,9 +31,9 @@ jobs:
 
     strategy:
       matrix:
-        python: ['3.8', '3.12']
-        django: ['3.2', '4.2']
-        wagtail: ['5.1', '5.2']
+        python: [ '3.8', '3.12' ]
+        django: [ '4.2' ]
+        wagtail: [ '5.1', '5.2', '6.0' ]
 
     steps:
       - uses: actions/checkout@v4
@@ -50,7 +50,7 @@ jobs:
 
       - name: Run tox
         run: |
-            tox
+          tox
         env:
           TOXENV: python${{ matrix.python }}-django${{ matrix.django }}-wagtail${{ matrix.wagtail }}
 
