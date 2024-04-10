@@ -9,7 +9,7 @@ authors = [
     { name = "CFPB", email = "tech@cfpb.gov" }
 ]
 dependencies = [
-    "wagtail>=5.1,<6.0.1",
+    "wagtail>=5.1,<7",
     "wagtail-modeladmin>=1.0",
 ]
 classifiers = [
