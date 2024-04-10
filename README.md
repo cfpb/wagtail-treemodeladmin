@@ -7,21 +7,22 @@
 
 Wagtail-TreeModelAdmin is an extension for Wagtail's [wagtail-modeladmin](https://github.com/wagtail-nest/wagtail-modeladmin) that allows for a page explorer-like navigation of Django model relationships within the Wagtail admin.
 
-- [Dependencies](#dependencies)
-- [Installation](#installation)
-- [Concepts](#concepts)
-- [Usage](#usage)
+- [Wagtail-TreeModelAdmin](#wagtail-treemodeladmin)
+  - [Dependencies](#dependencies)
+  - [Installation](#installation)
+  - [Concepts](#concepts)
+  - [Usage](#usage)
     - [Quickstart](#quickstart)
-- [API](#api)
-- [Getting help](#getting-help)
-- [Getting involved](#getting-involved)
-- [Licensing](#licensing)
-- [Credits and references](#credits-and-references)
+  - [API](#api)
+  - [Getting help](#getting-help)
+  - [Getting involved](#getting-involved)
+  - [Licensing](#licensing)
+  - [Credits and references](#credits-and-references)
 
 ## Dependencies
 
 - Python 3.8+
-- Django 3.2 (LTS), 4.1 (current)
+- Django {>=4.2,<5.0}
 - Wagtail 5.1+
 - [wagtail-modeladmin](https://github.com/wagtail-nest/wagtail-modeladmin)
 
@@ -38,13 +39,13 @@ pip install wagtail-treemodeladmin
 
 2. Add `treemodeladmin` (and `wagtail_modeladmin` if it's not already) as an installed app in your Django `settings.py`:
 
- ```python
- INSTALLED_APPS = (
-     ...
-     'wagtail_modeladmin',
-     'treemodeladmin',
-     ...
- )
+```python
+INSTALLED_APPS = (
+    ...
+    'wagtail_modeladmin',
+    'treemodeladmin',
+    ...
+)
 ```
 
 ## Concepts
