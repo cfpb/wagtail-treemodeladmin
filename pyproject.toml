@@ -13,16 +13,16 @@ authors = [
     {name = "CFPB", email = "tech@cfpb.gov" }
 ]
 dependencies = [
-    "wagtail>=5.1,<5.3",
+    "wagtail>=5.1",
     "wagtail-modeladmin>=1.0",
 ]
 classifiers = [
     "Framework :: Django",
-    "Framework :: Django :: 3.2",
     "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
     "Framework :: Wagtail",
-    "Framework :: Wagtail :: 4",
     "Framework :: Wagtail :: 5",
+    "Framework :: Wagtail :: 6",
     "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
     "License :: Public Domain",
     "Programming Language :: Python",
