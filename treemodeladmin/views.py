@@ -3,9 +3,7 @@ from django.db import models
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
-
 from wagtail.admin import messages
-
 from wagtail_modeladmin.views import (
     CreateView,
     DeleteView,
@@ -14,7 +12,7 @@ from wagtail_modeladmin.views import (
 )
 
 
-class TreeViewParentMixin(object):
+class TreeViewParentMixin:
     @cached_property
     def parent_model_admin(self):
         if self.model_admin.has_parent():
@@ -44,8 +42,10 @@ class TreeViewParentMixin(object):
             if self.model_admin.parent_field in params:
                 parent_pk = unquote(params[self.model_admin.parent_field])
                 filter_kwargs = {self.parent_opts.pk.attname: parent_pk}
-                parent_qs = self.parent_model._default_manager.get_queryset().filter(  # noqa
-                    **filter_kwargs
+                parent_qs = (
+                    self.parent_model._default_manager.get_queryset().filter(  # noqa
+                        **filter_kwargs
+                    )
                 )
                 return get_object_or_404(parent_qs)
 
@@ -78,7 +78,7 @@ class TreeViewParentMixin(object):
 
 class TreeIndexView(TreeViewParentMixin, IndexView):
     def get_queryset(self, request=None):
-        qs = super(TreeIndexView, self).get_queryset(request=request)
+        qs = super().get_queryset(request=request)
 
         if self.parent_instance is not None:
             parent_filter = {
@@ -90,7 +90,7 @@ class TreeIndexView(TreeViewParentMixin, IndexView):
     def get_page_title(self):
         if self.parent_instance is not None:
             return str(self.parent_instance)
-        return super(TreeIndexView, self).get_page_title()
+        return super().get_page_title()
 
     def get_parent_edit_button(self):
         if self.parent_instance is None:
@@ -166,7 +166,7 @@ class TreeModelFormMixin(TreeViewParentMixin):
 
 class TreeCreateView(TreeModelFormMixin, CreateView):
     def get_initial(self):
-        initial = super(TreeCreateView, self).get_initial()
+        initial = super().get_initial()
         if self.parent_instance is not None:
             initial[self.model_admin.parent_field] = self.parent_instance.pk
         return initial

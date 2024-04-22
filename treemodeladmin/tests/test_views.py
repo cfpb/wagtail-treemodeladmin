@@ -1,5 +1,4 @@
 from django.test import TestCase
-
 from wagtail.test.utils import WagtailTestUtils
 
 from treemodeladmin.tests.treemodeladmintest.models import Author, Book
@@ -167,7 +166,7 @@ class TestBookEditView(TestCase, WagtailTestUtils):
 
     def post(self, book_id, post_data):
         return self.client.post(
-            "/admin/treemodeladmintest/book/edit/{}/".format(book_id),
+            f"/admin/treemodeladmintest/book/edit/{book_id}/",
             post_data,
         )
 
@@ -188,7 +187,7 @@ class TestBookDeleteView(TestCase, WagtailTestUtils):
 
     def post(self, book_id):
         return self.client.post(
-            "/admin/treemodeladmintest/book/delete/{}/".format(book_id)
+            f"/admin/treemodeladmintest/book/delete/{book_id}/"
         )
 
     def test_post(self):
@@ -207,7 +206,7 @@ class TestAuthorDeleteView(TestCase, WagtailTestUtils):
 
     def post(self, author_id):
         return self.client.post(
-            "/admin/treemodeladmintest/author/delete/{}/".format(author_id)
+            f"/admin/treemodeladmintest/author/delete/{author_id}/"
         )
 
     def test_post_with_dependent_object(self):

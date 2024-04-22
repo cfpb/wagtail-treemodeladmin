@@ -24,7 +24,7 @@ class TreeModelAdmin(ModelAdmin):
     url_helper_class = TreeAdminURLHelper
 
     def __init__(self, parent=None):
-        super(TreeModelAdmin, self).__init__(parent=parent)
+        super().__init__(parent=parent)
 
         if self.has_child():
             self.child_instance = self.child_model_admin(parent=self)
@@ -65,7 +65,7 @@ class TreeModelAdmin(ModelAdmin):
         return css
 
     def get_admin_urls_for_registration(self, parent=None):
-        urls = super(TreeModelAdmin, self).get_admin_urls_for_registration()
+        urls = super().get_admin_urls_for_registration()
 
         if self.has_child():
             urls = urls + self.child_instance.get_admin_urls_for_registration()

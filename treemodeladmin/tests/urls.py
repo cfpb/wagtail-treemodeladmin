@@ -1,6 +1,5 @@
 from wagtail.admin import urls as wagtailadmin_urls
 
-
 try:
     from django.urls import include, re_path
 except ImportError:

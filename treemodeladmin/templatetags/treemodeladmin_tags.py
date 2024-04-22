@@ -1,10 +1,8 @@
 from django.template import Library
-
 from wagtail_modeladmin.templatetags.modeladmin_tags import (
     result_list,
     result_row_display,
 )
-
 
 register = Library()
 
