@@ -1,6 +1,10 @@
+[build-system]
+requires = ["setuptools>=63", "setuptools_scm[toml]>=8"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "wagtail-treemodeladmin"
-version = "1.9.0"
+dynamic = ["version"]
 description = "TreeModelAdmin for Wagtail"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -35,16 +39,14 @@ testing = [
 "Bug Reports" = "https://github.com/cfpb/wagtail-treemodeladmin/issues"
 "Source" = "https://github.com/cfpb/wagtail-treemodeladmin"
 
-[build-system]
-requires = ["setuptools>=43.0.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [tool.setuptools.package-data]
 treemodeladmin = [
     "templates/treemodeladmin/*",
     "templates/treemodeladmin/includes/*",
     "static/treemodeladmin/css/*",
 ]
+
+[tool.setuptools_scm]
 
 [tool.ruff]
 # Use PEP8 line-length
@@ -84,4 +86,3 @@ omit = [
 exclude_dirs = [
     "*/tests/*",
 ]
-skips = []
