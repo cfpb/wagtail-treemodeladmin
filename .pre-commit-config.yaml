@@ -1,17 +1,9 @@
 repos:
--   repo: https://github.com/psf/black
-    rev: 22.3.0
-    hooks:
-    - id: black
-      args: ["treemodeladmin", "setup.py", "--line-length=79"]
-      exclude: migrations
 -   repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.188
+    rev: v0.4.1
     hooks:
+      # Run the linter.
       - id: ruff
--   repo: https://github.com/pycqa/isort
-    rev: 5.10.1
-    hooks:
-      - id: isort
-        name: isort (python)
-        args: ["treemodeladmin"]
+        args: [ --fix ]
+      # Run the formatter.
+      - id: ruff-format

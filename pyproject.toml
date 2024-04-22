@@ -46,56 +46,50 @@ treemodeladmin = [
     "static/treemodeladmin/css/*",
 ]
 
-[tool.black]
-line-length = 79
-target-version = ["py38"]
-include = '\.pyi?$'
-exclude = '''
-(
-  /(
-      \.eggs
-    | \.git
-    | \.tox
-    | \*.egg-info
-    | _build
-    | build
-    | dist
-    | migrations
-    | site
-  )/
-)
-'''
-
-[tool.isort]
-profile = "black"
-line_length = 79
-lines_after_imports = 2
-skip = [".tox", "migrations", ".venv", "venv"]
-known_django = ["django"]
-known_wagtail = ["wagtail"]
-default_section = "THIRDPARTY"
-sections = [
-    "STDLIB",
-    "DJANGO",
-    "WAGTAIL",
-    "THIRDPARTY",
-    "FIRSTPARTY",
-    "LOCALFOLDER"
-]
-
 [tool.ruff]
+# Use PEP8 line-length
+line-length = 79
+# Exclude common paths
 exclude = [
     ".git",
     ".tox",
     "__pycache__",
-    "*/migrations/*.py",
-    "*/tests/treemodeladmintest/migrations/*",
+    "**/migrations/*.py",
 ]
+
+[tool.ruff.lint]
 ignore = []
+# Select specific rulesets to use
 select = [
+    # pycodestyle
     "E",
+    # pyflakes
     "F",
-    "W",
+    # flake8-bugbear
+    "B",
+    # pyupgrade
+    "UP",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+
+[tool.ruff.lint.isort.sections]
+"django" = ["django"]
+"wagtail" = ["wagtail"]
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+known-third-party = ["jinja2"]
+section-order = [
+    "future",
+    "standard-library",
+    "django",
+    "wagtail",
+    "third-party",
+    "first-party",
+    "local-folder",
 ]
 
 [tool.coverage.run]

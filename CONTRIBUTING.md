@@ -34,15 +34,14 @@ and patterns in the existing code-base.
 
 ## Style
 
-This project uses [`black`](https://github.com/psf/black) to format code,
-[`isort`](https://github.com/timothycrosley/isort) to format imports,
-and [`flake8`](https://gitlab.com/pycqa/flake8).
+This project uses [`ruff`](https://docs.astral.sh/ruff/) to lint and format
+code and imports.
 
 You can format code and imports by calling:
 
 ```
-black treemodeladmin
-isort --recursive treemodeladmin
+ruff format
+ruff check --fix
 ```
 
 And you can check for style, import order, and other linting by using:
