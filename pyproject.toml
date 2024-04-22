@@ -96,3 +96,9 @@ section-order = [
 omit = [
     "treemodeladmin/tests/*",
 ]
+
+[tool.bandit]
+exclude_dirs = [
+    "*/tests/*",
+]
+skips = []
