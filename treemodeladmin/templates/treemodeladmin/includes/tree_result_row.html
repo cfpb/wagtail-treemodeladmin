@@ -1,15 +1,24 @@
-{% load modeladmin_tags %}
+{% load modeladmin_tags wagtailadmin_tags %}
+
 <tr{{ row_attrs }}>
     {% for item in result %}
         {% result_row_value_display forloop.counter0 %}
     {% endfor %}
     {% if children.count > 0 %}
     <td class="children">
-        <a class="icon text-replace icon-arrow-right" title="Explore {{ obj }}'s {{ view.child_name_plural }}" href="{{ child_index_url }}">Explore {{ obj }}'s {{ view.child_name_plural }}</a>
+        <a
+            href="{{ child_index_url }}"
+            title="Explore {{ obj }}'s {{ view.child_name_plural }}"
+            aria-label="Explore {{ obj }}'s {{ view.child_name_plural }}"
+        >{% icon name="arrow-right" classname="default" %}</a>
     </td>
     {% else %}
     <td class="no-children">
-        <a class="icon text-replace icon-plus-inverse" title="Add a {{ obj }} {{ view.child_name }}" href="{{ child_create_url }}">Add a {{ obj }} {{  view.child_name }}</a>
+        <a
+            href="{{ child_create_url }}"
+            title="Add a {{ obj }} {{ view.child_name }}"
+            aria-label="Add a {{ obj }} {{  view.child_name }}"
+        >{% icon name="plus-inverse" classname="default" %}</a>
     </td>
     {% endif %}
 </tr>
