@@ -6,18 +6,10 @@ from wagtail_modeladmin.helpers import AdminURLHelper, ButtonHelper
 
 class TreeAdminURLHelper(AdminURLHelper):
     def get_create_url_with_parent(self, parent_field, parent_pk):
-        return "{create_url}?{parent_field}={parent_pk}".format(
-            create_url=self.create_url,
-            parent_field=parent_field,
-            parent_pk=quote(parent_pk),
-        )
+        return f"{self.create_url}?{parent_field}={quote(parent_pk)}"
 
     def get_index_url_with_parent(self, parent_field, parent_pk):
-        return "{index_url}?{parent_field}={parent_pk}".format(
-            index_url=self.index_url,
-            parent_field=parent_field,
-            parent_pk=quote(parent_pk),
-        )
+        return f"{self.index_url}?{parent_field}={quote(parent_pk)}"
 
     def crumb(
         self, parent_field=None, parent_instance=None, specific_instance=None
@@ -39,9 +31,7 @@ class TreeAdminURLHelper(AdminURLHelper):
 
 class TreeButtonHelper(ButtonHelper):
     def add_button(self, classnames_add=None, classnames_exclude=None):
-        return super(TreeButtonHelper, self).add_button(
-            classnames_add=["button-small"]
-        )
+        return super().add_button(classnames_add=["button-small"])
 
     def get_add_button_with_parent(
         self,
