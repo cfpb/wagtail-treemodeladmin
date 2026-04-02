@@ -81,14 +81,19 @@ class TreeViewParentMixin:
 
 
 class TreeIndexView(TreeViewParentMixin, IndexView):
-    def get_queryset(self, request=None):
-        # Workaround needed until wagtail-modeladmin merges
-        # https://github.com/wagtail-nest/wagtail-modeladmin/pull/55.
-        if DJANGO_VERSION >= (5, 0) and isinstance(
-            self.params, MultiValueDict
-        ):
-            self.params = dict(self.params.lists())
+    def get_filters_params(self, params=None):
+        # See https://github.com/wagtail-nest/wagtail-modeladmin/pull/55.
+        # This is needed for filtering by multi-character primary keys.
+        filters_params = super().get_filters_params(params)
 
+        if DJANGO_VERSION >= (5, 0) and isinstance(
+            filters_params, MultiValueDict
+        ):
+            filters_params = dict(filters_params.lists())
+
+        return filters_params
+
+    def get_queryset(self, request=None):
         qs = super().get_queryset(request=request)
 
         if self.parent_instance is not None:
