@@ -19,6 +19,28 @@ class TestAuthorIndexView(TestCase, WagtailTestUtils):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["result_count"], 5)
 
+    def test_author_listing_sorting(self):
+        response = self.get(o="0")
+        self.assertEqual(response.status_code, 200)
+        result_names = [
+            author.name for author in response.context["object_list"]
+        ]
+        self.assertEqual(
+            result_names,
+            sorted(result_names),
+        )
+
+    def test_author_listing_reverse_sorting(self):
+        response = self.get(o="-0")
+        self.assertEqual(response.status_code, 200)
+        result_names = [
+            author.name for author in response.context["object_list"]
+        ]
+        self.assertEqual(
+            result_names,
+            sorted(result_names, reverse=True),
+        )
+
     def test_explore_link(self):
         response = self.get()
         self.assertEqual(response.status_code, 200)
