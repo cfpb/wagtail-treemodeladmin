@@ -49,3 +49,18 @@ And you can check for style, import order, and other linting by using:
 ```
 tox -e lint
 ```
+
+## Release management
+
+To make a new release:
+
+1. Go to https://github.com/cfpb/wagtail-treemodeladmin/releases/new
+1. Under the "Tag" drop-down, type the new version, incrementing the major, minor, or patch release digits as needed (for example, for a minor release on top of `1.11.0`, you'd enter `1.12.0`).
+1. Click "Create new tag"
+1. Leave target as `main`.
+1. Set the "Release title" to the same as the new tag, (e.g. `1.12.0`).
+1. Click "Generate release notes", make sure these look right.
+1. Click "Publish release".
+1. Under https://github.com/cfpb/wagtail-treemodeladmin/actions, you should see a "Publish to PyPI" action running - observe it to make sure it completes without error.
+
+If all worked correctly, you should see your new version at https://pypi.org/project/wagtail-treemodeladmin/.
