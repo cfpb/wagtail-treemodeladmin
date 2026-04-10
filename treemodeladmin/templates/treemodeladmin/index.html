@@ -1,8 +1,9 @@
 {% extends "modeladmin/index.html" %}
 {% load i18n modeladmin_tags wagtailadmin_tags treemodeladmin_tags %}
 
-{% block breadcrumb %}
-    {% include "treemodeladmin/includes/breadcrumb.html" %}
+{% block header %}
+    {% include "wagtailadmin/shared/headers/slim_header.html" with breadcrumbs_items=view.breadcrumbs %}
+    {{ block.super }}
 {% endblock %}
 
 {% block h1 %}

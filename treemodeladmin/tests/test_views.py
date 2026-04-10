@@ -60,8 +60,8 @@ class TestAuthorIndexView(TestCase, WagtailTestUtils):
     def test_breadcrumbs(self):
         resposne = self.get()
         self.assertEqual(
-            list(resposne.context["view"].breadcrumbs),
-            [("/admin/treemodeladmintest/author/", "authors")],
+            resposne.context["view"].breadcrumbs,
+            [{"url": "/admin/treemodeladmintest/author/", "label": "Authors"}],
         )
 
     def test_get_context_data(self):
@@ -134,23 +134,29 @@ class TestBookIndexView(TestCase, WagtailTestUtils):
     def test_breadcrumbs(self):
         resposne = self.get()
         self.assertEqual(
-            list(resposne.context["view"].breadcrumbs),
+            resposne.context["view"].breadcrumbs,
             [
-                ("/admin/treemodeladmintest/author/", "authors"),
-                ("/admin/treemodeladmintest/book/", "books"),
+                {
+                    "url": "/admin/treemodeladmintest/author/",
+                    "label": "Authors",
+                },
+                {"url": "/admin/treemodeladmintest/book/", "label": "Books"},
             ],
         )
 
     def test_breadcrumbs_with_parent(self):
         resposne = self.get(author=1)
         self.assertEqual(
-            list(resposne.context["view"].breadcrumbs),
+            resposne.context["view"].breadcrumbs,
             [
-                ("/admin/treemodeladmintest/author/", "authors"),
-                (
-                    "/admin/treemodeladmintest/book/?author=1",
-                    "J. R. R. Tolkien",
-                ),
+                {
+                    "url": "/admin/treemodeladmintest/author/",
+                    "label": "Authors",
+                },
+                {
+                    "url": "/admin/treemodeladmintest/book/?author=1",
+                    "label": "J. R. R. Tolkien",
+                },
             ],
         )
 
@@ -282,16 +288,19 @@ class TestVolumeIndexView(TestCase, WagtailTestUtils):
     def test_breadcrumbs_with_parents(self):
         resposne = self.get(book=1)
         self.assertEqual(
-            list(resposne.context["view"].breadcrumbs),
+            resposne.context["view"].breadcrumbs,
             [
-                ("/admin/treemodeladmintest/author/", "authors"),
-                (
-                    "/admin/treemodeladmintest/book/?author=1",
-                    "J. R. R. Tolkien",
-                ),
-                (
-                    "/admin/treemodeladmintest/volume/?book=1",
-                    "The Lord of the Rings",
-                ),
+                {
+                    "url": "/admin/treemodeladmintest/author/",
+                    "label": "Authors",
+                },
+                {
+                    "url": "/admin/treemodeladmintest/book/?author=1",
+                    "label": "J. R. R. Tolkien",
+                },
+                {
+                    "url": "/admin/treemodeladmintest/volume/?book=1",
+                    "label": "The Lord of the Rings",
+                },
             ],
         )
