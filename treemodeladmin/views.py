@@ -77,7 +77,7 @@ class TreeViewParentMixin:
             else:
                 model_admin = None
 
-        return reversed(breadcrumbs)
+        return list(reversed(breadcrumbs))
 
 
 class TreeIndexView(TreeViewParentMixin, IndexView):

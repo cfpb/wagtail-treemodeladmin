@@ -1,5 +1,6 @@
 from django.contrib.admin.utils import quote
 from django.utils.encoding import force_str
+from django.utils.text import capfirst
 
 from wagtail_modeladmin.helpers import AdminURLHelper, ButtonHelper
 
@@ -26,7 +27,7 @@ class TreeAdminURLHelper(AdminURLHelper):
         else:
             crumb_text = force_str(self.opts.verbose_name_plural)
 
-        return (index_url, crumb_text)
+        return {"url": index_url, "label": capfirst(crumb_text)}
 
 
 class TreeButtonHelper(ButtonHelper):
