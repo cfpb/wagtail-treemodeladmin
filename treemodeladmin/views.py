@@ -1,4 +1,4 @@
-from django import VERSION as DJANGO_VERSION
+from django import VERSION as DJANGO_VERSION, forms
 from django.contrib.admin.utils import unquote
 from django.db import models
 from django.shortcuts import get_object_or_404, redirect
@@ -172,6 +172,27 @@ class TreeIndexView(TreeViewParentMixin, IndexView):
 
 
 class TreeModelFormMixin(TreeViewParentMixin):
+    def get_form(self):
+        form = super().get_form()
+
+        if self.parent_instance is not None:
+            parent_field = self.model_admin.parent_field
+            if parent_field in form.fields:
+                form.fields[parent_field].widget = forms.HiddenInput()
+                form.fields[parent_field].initial = self.parent_instance.pk
+
+        return form
+
+    def form_valid(self, form):
+        if self.parent_instance is not None:
+            setattr(
+                form.instance,
+                self.model_admin.parent_field,
+                self.parent_instance,
+            )
+
+        return super().form_valid(form)
+
     def get_success_url(self):
         if self.parent_instance is not None:
             return self.url_helper.get_index_url_with_parent(
