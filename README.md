@@ -20,9 +20,9 @@ Wagtail-TreeModelAdmin is an extension for Wagtail's [wagtail-modeladmin](https:
 
 ## Dependencies
 
-- Python 3.12+
-- Django  5.2 (LTS)+
-- Wagtail 6.3+
+- Python 3.13 – 3.14
+- Django  5.2 (LTS) – 6.0
+- Wagtail 7.0 (LTS) – 7.4 (LTS)
 - [wagtail-modeladmin](https://github.com/wagtail-nest/wagtail-modeladmin)
 
 It should be compatible with all intermediate versions, as well.
@@ -68,6 +68,7 @@ from django.db import models
 class Author(models.Model):
     name = models.CharField(max_length=255)
 
+
 class Book(models.Model):
     author = models.ForeignKey(Author, on_delete=models.PROTECT)
     title = models.CharField(max_length=255)
@@ -86,15 +87,15 @@ from libraryapp.models import Author, Book
 
 class BookModelAdmin(TreeModelAdmin):
     model = Book
-    parent_field = 'author'
+    parent_field = "author"
 
 
 @modeladmin_register
 class AuthorModelAdmin(TreeModelAdmin):
-    menu_label = 'Library'
-    menu_icon = 'list-ul'
+    menu_label = "Library"
+    menu_icon = "list-ul"
     model = Author
-    child_field = 'book_set'
+    child_field = "book_set"
     child_model_admin = BookModelAdmin
 ```
 
