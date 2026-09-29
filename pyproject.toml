@@ -14,7 +14,7 @@ authors = [
 ]
 dependencies = [
     "wagtail>=7.0",
-    "wagtail-modeladmin>=1.0",
+    "wagtail-modeladmin>=2.4.0",
 ]
 classifiers = [
     "Framework :: Django",
