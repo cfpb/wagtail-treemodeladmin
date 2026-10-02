@@ -184,7 +184,8 @@ class TestBookCreateView(TestCase, WagtailTestUtils):
     def test_book_creation_with_initial_author(self):
         response = self.get(author=1)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'value="1" selected')
+        self.assertContains(response, 'type="hidden" name="author" value="1"')
+        self.assertNotContains(response, '<select name="author"')
 
     def test_create_redirects_to_author(self):
         response = self.post({"title": "The Silmarilian", "author": 1})
@@ -201,11 +202,20 @@ class TestBookEditView(TestCase, WagtailTestUtils):
     def setUp(self):
         self.user = self.login()
 
+    def get(self, book_id):
+        return self.client.get(f"/admin/treemodeladmintest/book/edit/{book_id}/")
+
     def post(self, book_id, post_data):
         return self.client.post(
             f"/admin/treemodeladmintest/book/edit/{book_id}/",
             post_data,
         )
+
+    def test_edit_hides_parent_field(self):
+        response = self.get(1)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'type="hidden" name="author" value="1"')
+        self.assertNotContains(response, '<select name="author"')
 
     def test_create_redirects_to_author(self):
         response = self.post(
